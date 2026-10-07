@@ -103,8 +103,9 @@ async function copyReport(){
 function shareWhatsApp(){
  generateReport();
  const text=$("preview").textContent;
- const url="https://wa.me/?text="+encodeURIComponent(text);
- window.location.href=url;
+ const url="https://api.whatsapp.com/send?text="+encodeURIComponent(text);
+ const win=window.open(url,"_blank");
+ if(!win) window.location.href=url;
 }
 function load(){
  $("date").value=today();
