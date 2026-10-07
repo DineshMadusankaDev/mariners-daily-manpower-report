@@ -19,7 +19,7 @@ input,textarea{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:10
 button{width:100%;padding:14px;border:0;border-radius:12px;margin-top:8px;font-size:16px;font-weight:700}
 .generate{background:#111827;color:#fff}.copy{background:#16a34a;color:#fff}.whatsapp{background:#25D366;color:#fff}.clear{background:#e5e7eb;color:#111827}
 .preview{white-space:pre-wrap;background:#111827;color:#f9fafb;border-radius:12px;padding:15px;font:13px/1.55 monospace;overflow:auto}
-.hint{font-size:12px;color:#6b7280;margin-top:8px}@media(max-width:430px){.grid{grid-template-columns:1fr}}
+.hint{font-size:12px;color:#6b7280;margin-top:8px}.count-box{display:flex;justify-content:space-between;align-items:center;margin-top:7px;padding:9px 12px;border-radius:9px;background:#f3f4f6;font-size:13px;color:#374151}.count-box b{font-size:16px;color:#111827}@media(max-width:430px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -42,8 +42,8 @@ button{width:100%;padding:14px;border:0;border-radius:12px;margin-top:8px;font-s
 <div class="total"><span>Total Manpower</span><b id="total">37</b></div>
 </div>
 <div class="card"><h2>Leave & Absent</h2>
-<div class="field"><label>Leave — Employee Numbers</label><textarea id="leave" placeholder="287, 388, 491, 495"></textarea></div>
-<div class="field"><label>Absent — Employee Numbers</label><textarea id="absent" placeholder="594, 595, 633"></textarea></div>
+<div class="field"><label>Leave — Employee Numbers</label><textarea id="leave" placeholder="287, 388, 491, 495"></textarea><div class="count-box"><span>Leave Count</span><b id="leaveCount">0</b></div></div>
+<div class="field"><label>Absent — Employee Numbers</label><textarea id="absent" placeholder="594, 595, 633"></textarea><div class="count-box"><span>Absent Count</span><b id="absentCount">0</b></div></div>
 </div>
 <div class="card"><h2>Submitted By</h2>
 <div class="field"><label>Supervisor Name</label><input id="submittedBy" value="B G D Madhusankha"></div>
@@ -64,7 +64,7 @@ function today(){let d=new Date(),o=d.getTimezoneOffset(),x=new Date(d.getTime()
 function niceDate(v){return new Date(v+"T00:00:00").toLocaleDateString("en-GB",{day:"2-digit",month:"long",year:"numeric"})}
 function n(id){return Number($(id).value)||0}
 function total(){let t=n("underground")+n("onground")+n("supervisor")+n("workers");$("total").textContent=t;return t}
-function list(v){return v.replace(/\n/g," ").split(/[,\s]+/).map(x=>x.trim()).filter(Boolean).join(", ")}
+function codes(v){return v.replace(/\n/g," ").split(/[,\s]+/).map(x=>x.trim()).filter(Boolean)}\nfunction list(v){return codes(v).join(", ")}\nfunction updateCounts(){$("leaveCount").textContent=codes($("leave").value).length;$("absentCount").textContent=codes($("absent").value).length}
 function data(){return {date:$("date").value,tbm:$("tbm").value,shift:$("shift").value,underground:$("underground").value,onground:$("onground").value,supervisor:$("supervisor").value,workers:$("workers").value,leave:$("leave").value,absent:$("absent").value,submittedBy:$("submittedBy").value,designation:$("designation").value}}
 function save(){localStorage.setItem("manpowerReportData",JSON.stringify(data()));total()}
 function generateReport(){
@@ -113,7 +113,7 @@ function load(){
  if(!$("date").value)$("date").value=today();total()
 }
 ["underground","onground","supervisor","workers"].forEach(id=>$(id).addEventListener("input",save));
-["date","tbm","shift","leave","absent","submittedBy","designation"].forEach(id=>$(id).addEventListener("input",save));
+["date","tbm","shift","submittedBy","designation"].forEach(id=>$(id).addEventListener("input",save));\n["leave","absent"].forEach(id=>$(id).addEventListener("input",()=>{updateCounts();save()}));
 load();
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js"))}
 </script>
