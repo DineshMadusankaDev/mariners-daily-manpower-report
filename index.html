@@ -17,7 +17,7 @@ label{display:block;font-size:12px;font-weight:700;margin-bottom:6px;color:#3741
 input,textarea{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:10px;font-size:16px;background:#fff}textarea{min-height:82px;resize:vertical}
 .total{display:flex;justify-content:space-between;background:#f3f4f6;border-radius:10px;padding:12px;font-weight:700}.total b{font-size:20px}
 button{width:100%;padding:14px;border:0;border-radius:12px;margin-top:8px;font-size:16px;font-weight:700}
-.generate{background:#111827;color:#fff}.copy{background:#16a34a;color:#fff}.clear{background:#e5e7eb;color:#111827}
+.generate{background:#111827;color:#fff}.copy{background:#16a34a;color:#fff}.whatsapp{background:#25D366;color:#fff}.clear{background:#e5e7eb;color:#111827}
 .preview{white-space:pre-wrap;background:#111827;color:#f9fafb;border-radius:12px;padding:15px;font:13px/1.55 monospace;overflow:auto}
 .hint{font-size:12px;color:#6b7280;margin-top:8px}@media(max-width:430px){.grid{grid-template-columns:1fr}}
 </style>
@@ -52,8 +52,9 @@ button{width:100%;padding:14px;border:0;border-radius:12px;margin-top:8px;font-s
 <div class="card">
 <button class="generate" onclick="generateReport()">Generate Report</button>
 <button class="copy" onclick="copyReport()">Copy Report</button>
+<button class="whatsapp" onclick="shareWhatsApp()">Share to WhatsApp</button>
 <button class="clear" onclick="clearForm()">Clear</button>
-<div class="hint">Generate → Copy → paste into WhatsApp. Data is saved on this device.</div>
+<div class="hint">Generate → Copy or Share to WhatsApp. Data is saved on this device.</div>
 </div>
 <div class="card"><h2>Preview</h2><div id="preview" class="preview">Your report will appear here.</div></div>
 </div>
@@ -99,7 +100,12 @@ async function copyReport(){
  try{await navigator.clipboard.writeText(text)}catch(e){let ta=document.createElement("textarea");ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove()}
  alert("Report copied. Paste it into WhatsApp.")
 }
-function clearForm(){if(!confirm("Clear all fields?"))return;localStorage.removeItem("manpowerReportData");location.reload()}
+function shareWhatsApp(){
+ generateReport();
+ const text=$("preview").textContent;
+ const url="https://wa.me/?text="+encodeURIComponent(text);
+ window.location.href=url;
+}
 function load(){
  $("date").value=today();
  try{let s=JSON.parse(localStorage.getItem("manpowerReportData"));if(s)Object.keys(s).forEach(k=>{if($(k))$(k).value=s[k]})}catch(e){}
