@@ -1,11 +1,20 @@
 {
-  "name":"Daily Manpower Report",
-  "short_name":"Manpower Report",
-  "description":"Mobile daily manpower report generator for TBM site work.",
-  "start_url":"./",
-  "display":"standalone",
-  "background_color":"#f3f4f6",
-  "theme_color":"#111827",
-  "orientation":"portrait",
-  "icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+  "id": "/mariners-daily-manpower-report/",
+  "name": "Daily Manpower Report",
+  "short_name": "Manpower Report",
+  "description": "Mobile daily manpower report generator for TBM site work.",
+  "start_url": "/mariners-daily-manpower-report/",
+  "scope": "/mariners-daily-manpower-report/",
+  "display": "standalone",
+  "background_color": "#f3f4f6",
+  "theme_color": "#111827",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
 }
