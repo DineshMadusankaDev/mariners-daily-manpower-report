@@ -107,6 +107,21 @@ async function copyReport(){
  try{await navigator.clipboard.writeText(text)}catch(e){let ta=document.createElement("textarea");ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove()}
  alert("Report copied. Paste it into WhatsApp.")
 }
+function clearForm(){
+ if(!confirm("Clear all report data?")) return;
+ ["tbm","shift","underground","onground","supervisor","workers","leave","absent"].forEach(id=>{
+   const el=$(id);
+   if(el) el.value="";
+ });
+ $("date").value=today();
+ $("submittedBy").value="B G D Madhusankha";
+ $("designation").value="Supervisor";
+ $("preview").textContent="Your report will appear here.";
+ total();
+ updateCounts();
+ save();
+ window.scrollTo({top:0,behavior:"smooth"});
+}
 function shareWhatsApp(){
  generateReport();
  const text=$("preview").textContent;
