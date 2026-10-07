@@ -84,11 +84,13 @@ Total               : ${String(t).padStart(2,"0")}
 
 LEAVE
 ────────────────────────
-${list($("leave").value)||"None"}
+Count : ${String(codes($("leave").value).length).padStart(2,"0")}
+Codes : ${list($("leave").value)||"None"}
 
 ABSENT
 ────────────────────────
-${list($("absent").value)||"None"}
+Count : ${String(codes($("absent").value).length).padStart(2,"0")}
+Codes : ${list($("absent").value)||"None"}
 
 Submitted by:
 ${$("submittedBy").value.trim()}
