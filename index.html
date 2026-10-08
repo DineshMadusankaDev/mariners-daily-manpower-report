@@ -23,9 +23,22 @@ h2{font-size:16px;margin:0 0 12px}.muted{color:#6b7280;font-size:12px}.statgrid{
 .empty{padding:18px;text-align:center;color:#6b7280;border:1px dashed #cbd5e1;border-radius:11px}.hidden{display:none!important}.count{font-weight:800}
 @media(max-width:520px){.row{grid-template-columns:1fr}.statgrid{grid-template-columns:repeat(2,1fr)}.nav{grid-template-columns:repeat(2,1fr)}}
 @media print{
-body{background:#fff}.no-print{display:none!important}.app{max-width:none;padding:0}.card{box-shadow:none;border-radius:0;border:0}.print-report{display:block!important}
-@page{size:A4;margin:12mm}
+body{background:#fff}.no-print{display:none!important}.app{max-width:none;padding:0}.tab{display:none!important}.print-sheet{display:block!important}.print-report{display:none!important}
+@page{size:A4 portrait;margin:8mm}
+.print-sheet{font-family:Arial,sans-serif;color:#111827;font-size:9px}
+.print-sheet h1{text-align:center;font-size:15px;margin:0 0 3px;text-transform:uppercase}
+.print-sheet .print-meta{text-align:center;font-size:9px;margin:0 0 7px}
+.print-sheet table{width:100%;border-collapse:collapse;table-layout:fixed}
+.print-sheet th,.print-sheet td{border:1px solid #333;padding:3px 4px;line-height:1.05}
+.print-sheet th{font-size:8px;text-align:center}
+.print-sheet td.status{width:25px;text-align:center;font-size:13px;padding:1px}
+.print-sheet td.code{width:45px;font-family:monospace;font-size:8px}
+.print-sheet td.name{font-size:8px}
+.print-sheet .half{width:50%}
+.print-sheet .footer{margin-top:6px;font-size:8px}
 }
+.print-sheet{display:none}
+
 </style>
 </head>
 <body>
@@ -84,6 +97,8 @@ body{background:#fff}.no-print{display:none!important}.app{max-width:none;paddin
 <div class="actions"><button class="primary" onclick="generateReport()">Generate</button><button class="success" onclick="copyReport()">Copy</button><button class="success" onclick="shareWhatsApp()">WhatsApp</button><button class="light" onclick="printReport()">Print / Save PDF</button></div></div>
 <div class="card print-report"><h2>Preview</h2><div id="reportPreview" class="preview">Generate a report.</div></div>
 </section>
+
+<div id="printSheet" class="print-sheet"></div>
 </div>
 
 <script>
@@ -241,7 +256,22 @@ function generateReport(){
 }
 async function copyReport(){const t=generateReport();try{await navigator.clipboard.writeText(t)}catch(e){const ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove()}alert("Report copied.")}
 function shareWhatsApp(){const t=generateReport(),u="https://api.whatsapp.com/send?text="+encodeURIComponent(t);location.href=u}
-function printReport(){generateReport();window.print()}
+function printReport(){
+ const d=currentReportDay(),date=$("rDate").value||today(),shift=$("rShift").value;
+ const active=activeEmployees().slice().sort((a,b)=>a.code.localeCompare(b.code));
+ const assigned=assignedCodes(d),leave=new Set(d.leave||[]),absent=new Set(d.absent||[]);
+ const statusFor=code=>assigned.has(code)?"✅":"❎";
+ const mid=Math.ceil(active.length/2),left=active.slice(0,mid),right=active.slice(mid);
+ const row=e=>'<tr><td class="status">'+statusFor(e.code)+'</td><td class="code">'+esc(e.code)+'</td><td class="name">'+esc(e.name)+'</td></tr>';
+ const header='<tr><th class="status">✓/✕</th><th>CODE</th><th>NAME</th></tr>';
+ $("printSheet").innerHTML='<h1>Daily Attendance Sheet</h1>'
+  +'<div class="print-meta">Habarana – Palugaswewa Tunnel Project | '+esc(niceDate(date))+' | Shift: '+esc(shift)+' | TBM: '+esc(d.tbm||"01")+'</div>'
+  +'<table><tr>'
+  +'<td class="half" style="vertical-align:top;border:0;padding:0 3px 0 0"><table>'+header+left.map(row).join("")+'</table></td>'
+  +'<td class="half" style="vertical-align:top;border:0;padding:0 0 0 3px"><table>'+header+right.map(row).join("")+'</table></td>'
+  +'</tr></table><div class="footer">✅ Present &nbsp;&nbsp; ❎ Not present &nbsp;&nbsp; Total: '+active.length+' employees</div>';
+ window.print();
+}
 function exportBackup(){
  const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="manpower-backup-"+today()+".json";a.click();URL.revokeObjectURL(a.href);
 }
