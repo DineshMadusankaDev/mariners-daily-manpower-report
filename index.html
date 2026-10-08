@@ -16,6 +16,13 @@
 input,select,textarea{width:100%;padding:11px 12px;border:1px solid #d1d5db;border-radius:10px;background:#fff;font-size:15px;color:#111827}textarea{min-height:110px;resize:vertical}
 button{border:0;border-radius:10px;padding:11px 13px;font-size:14px;font-weight:700;cursor:pointer}button.primary{background:#111827;color:#fff}button.success{background:#16a34a;color:#fff}button.warn{background:#f59e0b;color:#111}button.danger{background:#fee2e2;color:#991b1b}button.light{background:#e5e7eb;color:#111827}.actions{display:flex;gap:8px;flex-wrap:wrap}.actions button{flex:1;min-width:120px}
 h2{font-size:16px;margin:0 0 12px}.muted{color:#6b7280;font-size:12px}.statgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.stat{background:#f8fafc;border-radius:10px;padding:10px;text-align:center}.stat b{display:block;font-size:20px}.stat span{font-size:11px;color:#64748b}
+.dash-title-row,.section-title-row{display:flex;align-items:center;justify-content:space-between;gap:10px}.dash-title-row h2{font-size:18px;margin:0 0 3px}.dash-title-row button{padding:8px 10px;font-size:12px}
+.dash-statgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}.dash-stat{background:#f8fafc;border:1px solid #e5e7eb;border-radius:13px;padding:12px;text-align:center}.dash-stat span{display:block;font-size:11px;color:#475569;font-weight:700}.dash-stat b{display:block;font-size:25px;margin:3px 0}.dash-stat small{color:#64748b;font-size:10px}.dash-stat.present{background:#f0fdf4;border-color:#bbf7d0}.dash-stat.present b{color:#15803d}.dash-stat.leave{background:#fffbeb;border-color:#fde68a}.dash-stat.leave b{color:#b45309}.dash-stat.absent{background:#fef2f2;border-color:#fecaca}.dash-stat.absent b{color:#b91c1c}
+.shift-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.shift-card{border:1px solid #e5e7eb;border-radius:13px;padding:12px;background:#fff}.shift-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:9px}.shift-name{font-weight:800;font-size:13px}.shift-status{font-size:10px;font-weight:800;padding:5px 8px;border-radius:999px;background:#fef3c7;color:#92400e}.shift-status.saved{background:#dcfce7;color:#166534}.shift-status.empty{background:#f1f5f9;color:#64748b}.shift-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}.shift-metric{background:#f8fafc;border-radius:9px;padding:7px;text-align:center}.shift-metric b{display:block;font-size:16px}.shift-metric span{font-size:9px;color:#64748b}.shift-open{margin-top:9px;width:100%;padding:8px;font-size:11px}
+.history-row{display:grid;grid-template-columns:1.2fr 1fr repeat(3,.55fr) .8fr;gap:5px;align-items:center;padding:9px 4px;border-bottom:1px solid #f1f5f9;font-size:11px}.history-row.head{font-weight:800;color:#64748b;font-size:9px;text-transform:uppercase}.history-row:last-child{border-bottom:0}.history-row .num{text-align:center;font-weight:800}.history-row .status-pill{font-size:9px;font-weight:800;text-align:center;padding:4px;border-radius:999px;background:#dcfce7;color:#166534}.history-row .status-pill.pending{background:#fef3c7;color:#92400e}
+.trend-row{display:grid;grid-template-columns:62px 1fr 28px;gap:8px;align-items:center;margin:8px 0}.trend-date{font-size:10px;font-weight:700;color:#475569}.trend-bar{height:13px;background:#f1f5f9;border-radius:999px;overflow:hidden;display:flex}.trend-bar span{height:100%}.trend-present{background:#22c55e}.trend-leave{background:#f59e0b}.trend-absent{background:#ef4444}.trend-total{font-size:10px;font-weight:800;text-align:right}
+.change-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.change-box{background:#f8fafc;border-radius:12px;padding:12px;text-align:center}.change-box b{display:block;font-size:22px}.change-box span{display:block;color:#64748b;font-size:10px;margin-top:3px}.last-saved{background:#f8fafc;border-radius:12px;padding:12px}.last-saved .big{font-weight:800;font-size:14px}.last-saved .meta{color:#64748b;font-size:11px;margin-top:4px}.empty-dash{padding:16px;text-align:center;color:#64748b;border:1px dashed #cbd5e1;border-radius:11px;font-size:12px}
+@media(max-width:520px){.row{grid-template-columns:1fr}.statgrid{grid-template-columns:repeat(2,1fr)}.nav{grid-template-columns:repeat(2,1fr)}.dash-statgrid{grid-template-columns:repeat(2,1fr)}.shift-grid{grid-template-columns:1fr}.history-row{grid-template-columns:1.1fr 1fr repeat(3,.55fr)}.history-row .history-status{grid-column:1/-1}.change-grid{grid-template-columns:1fr 1fr 1fr}.change-box{padding:9px 4px}.change-box b{font-size:18px}}
 .employee{display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid #e5e7eb;border-radius:11px;padding:10px;margin-top:7px}.employee .name{font-weight:700;font-size:14px}.employee .code{font-family:monospace;color:#2563eb;font-size:12px}.employee small{display:block;color:#6b7280;font-size:11px}.employee button{padding:7px 9px;font-size:11px}
 .chips{display:flex;gap:6px;flex-wrap:wrap}.chip{background:#eef2ff;color:#3730a3;padding:6px 9px;border-radius:999px;font-size:12px}
 .category{border:1px solid #e5e7eb;border-radius:13px;margin-bottom:10px;overflow:hidden}.category.open{border-color:#cbd5e1}.category-head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;background:#fff;color:#111827;text-align:left;padding:14px 12px;border-radius:0;font-size:14px}.category-head:active{background:#f8fafc}.category-head .arrow{font-size:16px;color:#64748b;transition:transform .15s}.category.open .category-head .arrow{transform:rotate(180deg)}.category-body{padding:0 12px 10px;border-top:1px solid #f1f5f9}.selected{background:#ecfdf5;border-color:#86efac}.notpresent{background:#fff7ed;border-color:#fed7aa}.listline{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #f1f5f9}.listline:last-child{border-bottom:0}
@@ -69,14 +76,54 @@ h2{font-size:16px;margin:0 0 12px}.muted{color:#6b7280;font-size:12px}.statgrid{
 </div>
 
 <section id="dashboard" class="tab">
-<div class="card"><h2>Today</h2><div class="statgrid">
-<div class="stat"><b id="dTotal">0</b><span>Employees</span></div>
-<div class="stat"><b id="dPresent">0</b><span>Present</span></div>
-<div class="stat"><b id="dLeave">0</b><span>Leave</span></div>
-<div class="stat"><b id="dAbsent">0</b><span>Absent</span></div>
-</div></div>
-<div class="card"><h2>Quick Start</h2><p class="muted">First add/import your employee master list. Then create today's attendance and select who worked in each category.</p><div class="actions"><button class="primary" onclick="showTab('employees')">Manage Employees</button><button class="success" onclick="showTab('attendance')">Today's Attendance</button></div></div>
-<div class="card"><h2>Backup</h2><p class="muted">Employee master data is built into this app. Export your local data if you want a backup of attendance records and changes.</p><div class="actions"><button class="light" onclick="exportBackup()">Export Backup</button></div></div>
+<div class="card dash-hero">
+  <div class="dash-title-row"><div><h2>Supervisor Dashboard</h2><div class="muted">Daily manpower overview • <span id="dashDate"></span></div></div><button class="light" onclick="refreshDashboard()">↻ Refresh</button></div>
+  <div class="dash-statgrid">
+    <div class="dash-stat"><span>👷 Active</span><b id="dTotal">0</b><small>Employees</small></div>
+    <div class="dash-stat present"><span>✔ Present</span><b id="dPresent">0</b><small>Today</small></div>
+    <div class="dash-stat leave"><span>🟡 Leave</span><b id="dLeave">0</b><small>Today</small></div>
+    <div class="dash-stat absent"><span>❌ Absent</span><b id="dAbsent">0</b><small>Today</small></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="section-title-row"><h2>Today's Shifts</h2><span class="muted">Both shifts at a glance</span></div>
+  <div id="dashShifts" class="shift-grid"></div>
+</div>
+
+<div class="card">
+  <div class="section-title-row"><h2>Recent Attendance</h2><span class="muted">Latest 8 shift records</span></div>
+  <div id="recentAttendance"></div>
+</div>
+
+<div class="card">
+  <div class="section-title-row"><h2>7-Day Attendance Trend</h2><span class="muted">Recorded present / absent / leave</span></div>
+  <div id="attendanceTrend"></div>
+</div>
+
+<div class="card">
+  <div class="section-title-row"><h2>Employee Changes</h2><span class="muted">Master list activity</span></div>
+  <div class="change-grid">
+    <div class="change-box"><b id="dAdded">0</b><span>Added this month</span></div>
+    <div class="change-box"><b id="dRemoved">0</b><span>Removed / inactive</span></div>
+    <div class="change-box"><b id="dCurrent">0</b><span>Current active</span></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="section-title-row"><h2>Last Saved Attendance</h2><span class="muted">Most recent record</span></div>
+  <div id="lastSaved" class="last-saved"></div>
+</div>
+
+<div class="card">
+  <h2>Quick Actions</h2>
+  <div class="actions">
+    <button class="primary" onclick="showTab('attendance')">Today's Attendance</button>
+    <button class="success" onclick="showTab('report')">Open Report</button>
+    <button class="light" onclick="showTab('employees')">Manage Employees</button>
+    <button class="light" onclick="exportBackup()">Export Backup</button>
+  </div>
+</div>
 </section>
 
 <section id="employees" class="tab hidden">
@@ -107,7 +154,7 @@ h2{font-size:16px;margin:0 0 12px}.muted{color:#6b7280;font-size:12px}.statgrid{
 <p class="muted">Employees who did not work today. Select <b>Leave</b> or <b>Absent</b>.</p>
 <div id="statusSections"></div>
 </div>
-<div class="card no-print"><div class="actions"><button class="primary" onclick="showTab('report')">Open Report</button><button class="success" onclick="saveDay();alert('Attendance saved.')">Save Attendance</button></div></div>
+<div class="card no-print"><div class="actions"><button class="primary" onclick="showTab('report')">Open Report</button><button class="success" onclick="saveAttendance()">Save Attendance</button></div></div>
 </section>
 
 <section id="report" class="tab hidden">
@@ -154,12 +201,34 @@ function showTab(tab){
  if(tab==="attendance")loadDay();
  if(tab==="report")loadReportDay();
 }
+function dayRecord(date,shift){return state.days[date+"|"+shift]||null}
+function recordStats(d){if(!d)return {total:0,present:0,leave:0,absent:0,recorded:false};const c=calcDay(d);return {...c,recorded:assignedCodes(d).size>0||(d.leave||[]).length>0||(d.absent||[]).length>0}}
+function dashboardShiftCard(date,shift){
+ const d=dayRecord(date,shift),c=recordStats(d);
+ const status=d?.savedAt?{text:"✓ Saved",cls:"saved"}:c.recorded?{text:"Recorded",cls:""}:{text:"Not started",cls:"empty"};
+ return '<div class="shift-card"><div class="shift-head"><div class="shift-name">'+esc(shift)+'</div><span class="shift-status '+status.cls+'">'+status.text+'</span></div>'+
+   '<div class="shift-metrics"><div class="shift-metric"><b>'+c.present+'</b><span>Present</span></div><div class="shift-metric"><b>'+c.leave+'</b><span>Leave</span></div><div class="shift-metric"><b>'+c.absent+'</b><span>Absent</span></div></div>'+
+   '<button class="light shift-open" onclick="openDashboardShift(\''+esc(date)+'\',\''+esc(shift)+'\')">Open Shift</button></div>';
+}
+function openDashboardShift(date,shift){$("aDate").value=date;$("aShift").value=shift;showTab("attendance")}
 function refreshDashboard(){
- const d=state.days[today()]||{}, a=calcDay(d);
- $("dTotal").textContent=state.employees.filter(e=>e.active).length;
- $("dPresent").textContent=a.present;
- $("dLeave").textContent=a.leave;
- $("dAbsent").textContent=a.absent;
+ const date=today(),active=activeEmployees();
+ const dayStats=SHIFTS.map(s=>recordStats(dayRecord(date,s)));
+ const present=[...new Set(SHIFTS.flatMap(s=>(dayRecord(date,s)?.categories?Object.values(dayRecord(date,s).categories).flat():[])))].filter(c=>active.some(e=>e.code===c)).length;
+ const leave=[...new Set(SHIFTS.flatMap(s=>dayRecord(date,s)?.leave||[]))].filter(c=>active.some(e=>e.code===c)).length;
+ const absent=[...new Set(SHIFTS.flatMap(s=>dayRecord(date,s)?.absent||[]))].filter(c=>active.some(e=>e.code===c)).length;
+ $("dashDate").textContent=niceDate(date);
+ $("dTotal").textContent=active.length;$("dPresent").textContent=present;$("dLeave").textContent=leave;$("dAbsent").textContent=absent;
+ $("dashShifts").innerHTML=SHIFTS.slice(0,2).map(s=>dashboardShiftCard(date,s)).join("");
+ const records=Object.entries(state.days).map(([key,d])=>{const p=key.split("|");return {date:p[0],shift:p[1]||"",d}}).filter(x=>x.date&&x.shift).sort((a,b)=>(b.date+b.shift).localeCompare(a.date+a.shift)).slice(0,8);
+ $("recentAttendance").innerHTML=records.length?'<div class="history-row head"><span>Date</span><span>Shift</span><span>Present</span><span>Leave</span><span>Absent</span><span>Status</span></div>'+records.map(r=>{const x=recordStats(r.d);return '<div class="history-row"><span>'+esc(r.date)+'</span><span>'+esc(r.shift)+'</span><span class="num">'+x.present+'</span><span class="num">'+x.leave+'</span><span class="num">'+x.absent+'</span><span class="history-status"><span class="status-pill '+(r.d.savedAt?"":"pending")+'">'+(r.d.savedAt?"Saved":"Recorded")+'</span></span></div>'}).join(""):'<div class="empty-dash">No attendance records yet. Start with Today’s Attendance.</div>';
+ const dates=Array.from({length:7},(_,i)=>{const x=new Date(date+"T00:00:00");x.setDate(x.getDate()-i);return x.toISOString().slice(0,10)}).reverse();
+ const trend=dates.map(dt=>{const recs=SHIFTS.map(s=>dayRecord(dt,s)).filter(Boolean);let p=0,l=0,a=0;recs.forEach(d=>{const x=recordStats(d);p+=x.present;l+=x.leave;a+=x.absent});return {dt,p,l,a,total:p+l+a}});const max=Math.max(1,...trend.map(x=>x.total));
+ $("attendanceTrend").innerHTML=trend.map(x=>'<div class="trend-row"><span class="trend-date">'+esc(x.dt.slice(5))+'</span><div class="trend-bar"><span class="trend-present" style="width:'+(x.p/max*100)+'%"></span><span class="trend-leave" style="width:'+(x.l/max*100)+'%"></span><span class="trend-absent" style="width:'+(x.a/max*100)+'%"></span></div><span class="trend-total">'+x.total+'</span></div>').join("")+'<div class="muted" style="margin-top:8px">🟢 Present &nbsp; 🟡 Leave &nbsp; 🔴 Absent</div>';
+ const month=date.slice(0,7),added=state.employees.filter(e=>e.createdAt&&e.createdAt.slice(0,7)===month).length;
+ $("dAdded").textContent=added;$("dRemoved").textContent=state.employees.filter(e=>!e.active).length;$("dCurrent").textContent=active.length;
+ const saved=Object.entries(state.days).map(([key,d])=>({key,d})).filter(x=>x.d?.savedAt).sort((a,b)=>new Date(b.d.savedAt)-new Date(a.d.savedAt))[0];
+ $("lastSaved").innerHTML=saved?(()=>{const [dt,sh]=saved.key.split("|");const x=recordStats(saved.d);return '<div class="big">'+esc(dt)+' • '+esc(sh)+'</div><div class="meta">Present '+x.present+' • Leave '+x.leave+' • Absent '+x.absent+' • Saved '+new Date(saved.d.savedAt).toLocaleString("en-GB")+'</div>'})():'<div class="empty-dash">No attendance has been explicitly saved yet.</div>';
 }
 function activeEmployees(){return state.employees.filter(e=>e.active)}
 function openEmployeeForm(code=null){
@@ -175,12 +244,12 @@ function saveEmployee(){
  const code=$("empCode").value.trim().toUpperCase(),name=$("empName").value.trim();
  if(!code||!name)return alert("Enter employee code and name.");
  if(state.editingCode){const e=state.employees.find(x=>x.code===state.editingCode);if(e)e.name=name}
- else {if(state.employees.some(e=>e.code===code))return alert("This code already exists.");state.employees.push({code,name,active:true})}
+ else {if(state.employees.some(e=>e.code===code))return alert("This code already exists.");state.employees.push({code,name,active:true,createdAt:today()})}
  save();closeEmployeeForm();renderEmployees();
 }
 function toggleEmployee(code){
  const e=state.employees.find(x=>x.code===code);if(!e)return;
- e.active=!e.active;save();renderEmployees();
+ e.active=!e.active;if(e.active){delete e.deactivatedAt}else{e.deactivatedAt=today()}save();renderEmployees();
 }
 function renderEmployees(){
  const q=($("empSearch").value||"").trim().toLowerCase(),f=$("empFilter").value;
@@ -302,6 +371,7 @@ function clearStatus(code){
 function loadReportDay(){
  $("rDate").value=$("rDate").value||$("aDate").value||today();$("rShift").value=$("rShift").value||$("aShift").value;generateReport();
 }
+function saveAttendance(){const d=getDay();d.tbm=$("aTbm").value.trim();d.savedAt=new Date().toISOString();state.days[dayKey()]=d;localStorage.setItem(KEY,JSON.stringify(state));refreshDashboard();alert("Attendance saved successfully.");}
 function currentReportDay(){
  const k=($("rDate").value||today())+"|"+$("rShift").value;return state.days[k]||blankDay();
 }
@@ -344,6 +414,7 @@ function exportBackup(){
 }
 
 load();
+state.employees.forEach(e=>{if(e.active===undefined)e.active=true});
 $("aDate").value=today();$("rDate").value=today();
 $("rShift").value="06:30 - 18:30";$("aShift").value="06:30 - 18:30";
 refreshDashboard();
