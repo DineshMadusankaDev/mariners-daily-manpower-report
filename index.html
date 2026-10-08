@@ -200,10 +200,27 @@ function toggleCategoryOpen(cat){
  renderAttendance();
 }
 function toggleCategory(cat,code){
- const d=getDay();d.categories[cat]=d.categories[cat]||[];const arr=d.categories[cat],i=arr.indexOf(code);
- if(i>=0)arr.splice(i,1);else{Object.keys(d.categories).forEach(k=>{d.categories[k]=(d.categories[k]||[]).filter(x=>x!==code)});d.leave=(d.leave||[]).filter(x=>x!==code);d.absent=(d.absent||[]).filter(x=>x!==code);arr.push(code)}
- saveDay();renderAttendance();
+ const d=getDay();
+ if(!d.categories || typeof d.categories!=="object") d.categories={};
+ d.categories[cat]=Array.isArray(d.categories[cat])?d.categories[cat]:[];
+ const arr=d.categories[cat];
+ const i=arr.indexOf(code);
+ if(i>=0){
+   arr.splice(i,1);
+ }else{
+   Object.keys(d.categories).forEach(k=>{
+     if(k!==cat) d.categories[k]=(Array.isArray(d.categories[k])?d.categories[k]:[]).filter(x=>x!==code);
+   });
+   d.leave=Array.isArray(d.leave)?d.leave.filter(x=>x!==code):[];
+   d.absent=Array.isArray(d.absent)?d.absent.filter(x=>x!==code):[];
+   arr.push(code);
+ }
+ state.days[dayKey()]=d;
+ localStorage.setItem(KEY,JSON.stringify(state));
+ renderAttendance();
+ refreshDashboard();
 }
+window.toggleCategory=toggleCategory;
 function setStatus(code,status){
  const d=getDay();d.leave=(d.leave||[]).filter(x=>x!==code);d.absent=(d.absent||[]).filter(x=>x!==code);
  if(status==="leave")d.leave.push(code);else d.absent.push(code);saveDay();renderAttendance();
