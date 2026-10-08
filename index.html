@@ -46,7 +46,7 @@ body{background:#fff}.no-print{display:none!important}.app{max-width:none;paddin
 <div class="stat"><b id="dAbsent">0</b><span>Absent</span></div>
 </div></div>
 <div class="card"><h2>Quick Start</h2><p class="muted">First add/import your employee master list. Then create today's attendance and select who worked in each category.</p><div class="actions"><button class="primary" onclick="showTab('employees')">Manage Employees</button><button class="success" onclick="showTab('attendance')">Today's Attendance</button></div></div>
-<div class="card"><h2>Backup</h2><p class="muted">Export your local data regularly. This app stores data on this device; it is not a server database.</p><div class="actions"><button class="light" onclick="exportBackup()">Export Backup</button><button class="light" onclick="document.getElementById('backupFile').click()">Import Backup</button><input id="backupFile" class="hidden" type="file" accept=".json" onchange="importBackup(event)"></div></div>
+<div class="card"><h2>Backup</h2><p class="muted">Employee master data is built into this app. Export your local data if you want a backup of attendance records and changes.</p><div class="actions"><button class="light" onclick="exportBackup()">Export Backup</button></div></div>
 </section>
 
 <section id="employees" class="tab hidden">
@@ -89,6 +89,7 @@ body{background:#fff}.no-print{display:none!important}.app{max-width:none;paddin
 <script>
 const $=id=>document.getElementById(id);
 const KEY="manpowerSystemV1";
+const DEFAULT_EMPLOYEES=[["M470","W.M.M.M.Warnasooriya"],["M473","R.A.N.J.Ranasingha"],["M474","B.S.L.Prasanna"],["M590","R.A.S.R.Rathnayake"],["M47","H.G.S.N.Jayathilaka"],["M287","A.W.C.K.Kumara"],["M336","S.Wimalarathna"],["M375","A.R.S.Senavirathna"],["M388","D.M.C.L.Sampath"],["M394","K.R.Kumara"],["M458","U.H.K.I.Kumarasingha"],["M460","A.G.L.V.Kumara"],["M491","R.D.K.Wickramasingha"],["M495","M.M.D.S.Herath"],["M496","L.G.R.S.Liyanage"],["M503","A.A.M.Amarasingha"],["M509","W.M.S.A.Rupasingha"],["M513","W.M.K.P.Warnasooriya"],["M514","S.G.Rupasingha"],["M548","A.S.B.P.W.M.R.P.Bandara"],["M549","W.M.M.J.Podiputha"],["M553","J.M.S.M.Rajapaksha"],["M591","W.I.V.N.Wickramasekara"],["M592","E.M.K.Bandara"],["M593","Chndrarathna"],["M594","A.D.C.D.Pemarathna"],["M595","N.S.K.Nandasena"],["M632","A.R.S.I.Kumara"],["M633","L.G.G.P.Dasanayaka"],["M639","K.D.M.S.Samaraveera"],["M671","D.S.S.Dissanayake"],["M672","A.W.K.Herath"],["M688","G.A.N.S.Wickramasingha"],["M689","W.M.C.R.Kumara"],["M691","N.N.Wijerathna"],["M696","S.J.Weerakon"],["M697","R.J.M.S.Jayawickrama"],["M743","RMKD Rathnayaka"],["M740","TU Karunathilaka"],["M738","PMS Sandeepa"],["M739","KJGS Jayasiri"],["M742","WMKI Wijerathna"],["M741","SP Buddika"],["M212","Priyantha 小工长"],["M76","DMWDissanayaka"],["M184","S.S.Maddvgpda"],["M297","A.G.V.C.Kumara"],["M298","P.R.V.C.Rajapaksha"],["M301","P.W.Saranga"],["M305","A.M.I.Bandara"],["M311","dinesh manjula piyarathna"],["M381","R.K.T.D.Kumara"],["M396","P.G.M.R.Herath"],["M398","K.D.L.Sampath"],["M400","H.M.A.P.Gunapala"],["M401","A.Lahiru"],["M407","D.M.P.N.Dissanayaka"],["M409","K.K.K.S.G.Kalpage"],["M412","D.M.G.Munidasa"],["M414","S.W.G.S. Kumara"],["M427","G.I.G.Kumara"],["M461","N.D.C.G.Wijewardana"],["M462","W.D.V.Wijesiri"],["M481","W.A.P.Lakshan"],["M487","K.M.S.D.Darmasiri"],["M490","P.G.J.K.Herath"],["M494","H.M.S.Karunarathna"],["M511","K.G.G.Samarawickrama"],["M515","J.D.K.S.Jayathilaka"],["M516","U.N.Premachandra"],["M518","R.M.S.D.Rathnayaka"],["M542","D.M.E.Dissanayake"],["M545","K.M.I.Lakshitha"],["M555","P.G.I.S.Dasanayaka"],["M556","D.M.R.P.H.Dissanayake"],["M557","P.G.H.M.S.K.Herath"],["M559","E.M.M.K.Thilakarathna"],["M563","T.L.D.Bandara"],["M564","S.S.M.Budhawatte"],["M565","R.K.A.Kumra"],["M610","K.U.J.S.De silva"],["M692","B.V.P.Dananjaya"],["M693","M.P.S.C.Kumara"],["M694","H.G.M.Hasakelum"]].map(([code,name])=>({code,name,active:true}));
 const CATEGORIES=["Underground Hooker","Onground Hooker","Supervisor","TBM Worker","Welder","Safety Officer","Locomotive Driver","Locomotive Signalman","Gantry Crane Operator","Gantry Crane Rigger","Forklift Driver","Mechanic","Filter","Cleaner","Other"];
 const SHIFTS=["06:30 - 18:30","14:30 - 02:30","18:30 - 07:30","22:30 - 10:30"];
 let state={employees:[],days:{},editingCode:null};
@@ -99,7 +100,15 @@ function uid(){return Math.random().toString(36).slice(2)+Date.now().toString(36
 function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function niceDate(v){return v?new Date(v+"T00:00:00").toLocaleDateString("en-GB",{day:"2-digit",month:"long",year:"numeric"}):""}
 function save(){localStorage.setItem(KEY,JSON.stringify(state));refreshDashboard()}
-function load(){try{let s=JSON.parse(localStorage.getItem(KEY));if(s&&Array.isArray(s.employees))state=s}catch(e){}}
+function load(){
+  try{
+    let s=JSON.parse(localStorage.getItem(KEY));
+    if(s&&Array.isArray(s.employees)&&s.employees.length) state=s;
+    else state={employees:DEFAULT_EMPLOYEES.map(e=>({...e})),days:{},editingCode:null};
+  }catch(e){
+    state={employees:DEFAULT_EMPLOYEES.map(e=>({...e})),days:{},editingCode:null};
+  }
+}
 function showTab(tab){
  document.querySelectorAll(".tab").forEach(x=>x.classList.add("hidden"));
  $(tab).classList.remove("hidden");
@@ -219,9 +228,7 @@ function printReport(){generateReport();window.print()}
 function exportBackup(){
  const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="manpower-backup-"+today()+".json";a.click();URL.revokeObjectURL(a.href);
 }
-function importBackup(ev){
- const f=ev.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const s=JSON.parse(r.result);if(!Array.isArray(s.employees)||!s.days)throw Error();state=s;save();renderEmployees();refreshDashboard();alert("Backup imported.")}catch(e){alert("Invalid backup file.")}};r.readAsText(f)
-}
+
 load();
 $("aDate").value=today();$("rDate").value=today();
 $("rShift").value="06:30 - 18:30";$("aShift").value="06:30 - 18:30";
