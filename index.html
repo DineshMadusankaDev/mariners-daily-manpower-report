@@ -210,15 +210,21 @@ function renderAttendance(){
    return `<div class="category ${isOpen?"open":""}"><button type="button" class="category-head" onclick="toggleCategoryOpen('${esc(cat)}')"><span><b>${esc(cat)}</b> <span class="muted">(${selected.length})</span></span><span class="arrow">▼</span></button>${body}</div>`;
  }).join("");
  const leave=new Set(d.leave||[]),absent=new Set(d.absent||[]);
+ const assignedForStatus=assignedCodes(d);
  const leaveEmployees=activeEmployees().filter(e=>leave.has(e.code));
  const absentEmployees=activeEmployees().filter(e=>absent.has(e.code));
- const statusRows=(list,type)=>{
+ const available=activeEmployees().filter(e=>!assignedForStatus.has(e.code)&&!leave.has(e.code)&&!absent.has(e.code));
+ const statusRows=(list)=>{
    if(!list.length) return '<div class="empty">No employees selected.</div>';
-   return list.map(e=>`<div class="listline"><span><b>${esc(e.code)}</b> — ${esc(e.name)}</span><button type="button" class="${type==="leave"?"warn":"danger"}" onclick="clearStatus('${esc(e.code)}')">Clear</button></div>`).join("");
+   return list.map(e=>`<div class="listline"><span><b>${esc(e.code)}</b> — ${esc(e.name)}</span><button type="button" class="light" onclick="clearStatus('${esc(e.code)}')">Clear</button></div>`).join("");
+ };
+ const availableRows=(type)=>{
+   if(!available.length) return '<div class="empty">No available employees.</div>';
+   return available.map(e=>`<div class="listline"><span><b>${esc(e.code)}</b> — ${esc(e.name)}</span><button type="button" class="${type==="leave"?"warn":"danger"}" onclick="setStatus('${esc(e.code)}','${type}')">Add</button></div>`).join("");
  };
  $("statusSections").innerHTML=
-   `<div class="category"><button type="button" class="category-head" onclick="toggleStatusSection('leave')"><span><b>Leave</b> <span class="muted">(${leaveEmployees.length})</span></span><span class="arrow">${openCategories.has("__leave")?"▲":"▼"}</span></button>${openCategories.has("__leave")?`<div class="category-body">${statusRows(leaveEmployees,"leave")}</div>`:""}</div>`+
-   `<div class="category"><button type="button" class="category-head" onclick="toggleStatusSection('absent')"><span><b>Absent</b> <span class="muted">(${absentEmployees.length})</span></span><span class="arrow">${openCategories.has("__absent")?"▲":"▼"}</span></button>${openCategories.has("__absent")?`<div class="category-body">${statusRows(absentEmployees,"absent")}</div>`:""}</div>`;
+   `<div class="category"><button type="button" class="category-head" onclick="toggleStatusSection('leave')"><span><b>Leave</b> <span class="muted">(${leaveEmployees.length})</span></span><span class="arrow">${openCategories.has("__leave")?"▲":"▼"}</span></button>${openCategories.has("__leave")?`<div class="category-body">${statusRows(leaveEmployees)}<div class="muted" style="padding:8px 0">Select an employee below to add Leave.</div>${availableRows("leave")}</div>`:""}</div>`+
+   `<div class="category"><button type="button" class="category-head" onclick="toggleStatusSection('absent')"><span><b>Absent</b> <span class="muted">(${absentEmployees.length})</span></span><span class="arrow">${openCategories.has("__absent")?"▲":"▼"}</span></button>${openCategories.has("__absent")?`<div class="category-body">${statusRows(absentEmployees)}<div class="muted" style="padding:8px 0">Select an employee below to add Absent.</div>${availableRows("absent")}</div>`:""}</div>`;
  const c=calcDay(d);$("aTotal").textContent=c.total;$("aPresent").textContent=c.present;$("aLeave").textContent=c.leave;$("aAbsent").textContent=c.absent;
 }
 function toggleCategoryOpen(cat){
