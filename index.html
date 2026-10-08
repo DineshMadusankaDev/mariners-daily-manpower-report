@@ -7,139 +7,213 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icon.svg">
-<title>Daily Manpower Report</title>
+<title>Manpower Management</title>
 <style>
-*{box-sizing:border-box}body{margin:0;padding:16px;background:#f3f4f6;color:#111827;font-family:Arial,sans-serif}
-.app{max-width:560px;margin:auto}.header,.card{background:#fff;border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 2px 10px #0000000d}
-.header{background:#111827;color:#fff}.header h1{margin:0 0 5px;font-size:21px}.header p{margin:0;color:#d1d5db;font-size:13px}
-h2{font-size:15px;margin:0 0 14px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{margin-bottom:12px}
-label{display:block;font-size:12px;font-weight:700;margin-bottom:6px;color:#374151}
-input,textarea{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:10px;font-size:16px;background:#fff}textarea{min-height:82px;resize:vertical}
-.total{display:flex;justify-content:space-between;background:#f3f4f6;border-radius:10px;padding:12px;font-weight:700}.total b{font-size:20px}
-button{width:100%;padding:14px;border:0;border-radius:12px;margin-top:8px;font-size:16px;font-weight:700}
-.generate{background:#111827;color:#fff}.copy{background:#16a34a;color:#fff}.whatsapp{background:#25D366;color:#fff}.clear{background:#e5e7eb;color:#111827}
-.preview{white-space:pre-wrap;background:#111827;color:#f9fafb;border-radius:12px;padding:15px;font:13px/1.55 monospace;overflow:auto}
-.hint{font-size:12px;color:#6b7280;margin-top:8px}.count-box{display:flex;justify-content:space-between;align-items:center;margin-top:7px;padding:9px 12px;border-radius:9px;background:#f3f4f6;font-size:13px;color:#374151}.count-box b{font-size:16px;color:#111827}@media(max-width:430px){.grid{grid-template-columns:1fr}}
+*{box-sizing:border-box}body{margin:0;background:#f3f4f6;color:#111827;font-family:Arial,sans-serif}
+.app{max-width:720px;margin:auto;padding:12px 12px 90px}.top{background:#111827;color:#fff;border-radius:18px;padding:18px;margin-bottom:12px}.top h1{margin:0 0 4px;font-size:22px}.top p{margin:0;color:#cbd5e1;font-size:13px}
+.nav{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:0 0 12px}.nav button{margin:0;padding:10px 6px;font-size:12px;background:#fff;color:#374151;border:1px solid #e5e7eb}.nav button.active{background:#111827;color:#fff}
+.card{background:#fff;border-radius:16px;padding:15px;margin-bottom:12px;box-shadow:0 2px 10px #0000000b}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{margin-bottom:10px}label{display:block;font-size:12px;font-weight:700;color:#374151;margin-bottom:6px}
+input,select,textarea{width:100%;padding:11px 12px;border:1px solid #d1d5db;border-radius:10px;background:#fff;font-size:15px;color:#111827}textarea{min-height:110px;resize:vertical}
+button{border:0;border-radius:10px;padding:11px 13px;font-size:14px;font-weight:700;cursor:pointer}button.primary{background:#111827;color:#fff}button.success{background:#16a34a;color:#fff}button.warn{background:#f59e0b;color:#111}button.danger{background:#fee2e2;color:#991b1b}button.light{background:#e5e7eb;color:#111827}.actions{display:flex;gap:8px;flex-wrap:wrap}.actions button{flex:1;min-width:120px}
+h2{font-size:16px;margin:0 0 12px}.muted{color:#6b7280;font-size:12px}.statgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.stat{background:#f8fafc;border-radius:10px;padding:10px;text-align:center}.stat b{display:block;font-size:20px}.stat span{font-size:11px;color:#64748b}
+.employee{display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid #e5e7eb;border-radius:11px;padding:10px;margin-top:7px}.employee .name{font-weight:700;font-size:14px}.employee .code{font-family:monospace;color:#2563eb;font-size:12px}.employee small{display:block;color:#6b7280;font-size:11px}.employee button{padding:7px 9px;font-size:11px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}.chip{background:#eef2ff;color:#3730a3;padding:6px 9px;border-radius:999px;font-size:12px}
+.category{border:1px solid #e5e7eb;border-radius:13px;padding:12px;margin-bottom:10px}.category h3{margin:0 0 9px;font-size:14px}.selected{background:#ecfdf5;border-color:#86efac}.notpresent{background:#fff7ed;border-color:#fed7aa}.listline{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #f1f5f9}.listline:last-child{border-bottom:0}
+.preview{white-space:pre-wrap;background:#111827;color:#f9fafb;border-radius:12px;padding:14px;font:12px/1.55 monospace;overflow:auto}
+.empty{padding:18px;text-align:center;color:#6b7280;border:1px dashed #cbd5e1;border-radius:11px}.hidden{display:none!important}.count{font-weight:800}
+@media(max-width:520px){.row{grid-template-columns:1fr}.statgrid{grid-template-columns:repeat(2,1fr)}.nav{grid-template-columns:repeat(2,1fr)}}
+@media print{
+body{background:#fff}.no-print{display:none!important}.app{max-width:none;padding:0}.card{box-shadow:none;border-radius:0;border:0}.print-report{display:block!important}
+@page{size:A4;margin:12mm}
+}
 </style>
 </head>
 <body>
 <div class="app">
-<div class="header"><h1>Daily Manpower Report</h1><p>TBM Project • Offline PWA</p></div>
-<div class="card"><h2>Report Details</h2>
-<div class="grid">
-<div class="field"><label>Date</label><input id="date" type="date"></div>
-<div class="field"><label>TBM</label><input id="tbm" value="01" inputmode="numeric"></div>
+<div class="top"><h1>Manpower Management</h1><p>Habarana – Palugaswewa Tunnel Project • Offline PWA</p></div>
+<div class="nav no-print">
+<button id="navDashboard" class="active" onclick="showTab('dashboard')">Dashboard</button>
+<button id="navEmployees" onclick="showTab('employees')">Employees</button>
+<button id="navAttendance" onclick="showTab('attendance')">Attendance</button>
+<button id="navReport" onclick="showTab('report')">Report</button>
 </div>
-<div class="field"><label>Shift</label><input id="shift" value="06:30 - 18:30"></div>
+
+<section id="dashboard" class="tab">
+<div class="card"><h2>Today</h2><div class="statgrid">
+<div class="stat"><b id="dTotal">0</b><span>Employees</span></div>
+<div class="stat"><b id="dPresent">0</b><span>Present</span></div>
+<div class="stat"><b id="dLeave">0</b><span>Leave</span></div>
+<div class="stat"><b id="dAbsent">0</b><span>Absent</span></div>
+</div></div>
+<div class="card"><h2>Quick Start</h2><p class="muted">First add/import your employee master list. Then create today's attendance and select who worked in each category.</p><div class="actions"><button class="primary" onclick="showTab('employees')">Manage Employees</button><button class="success" onclick="showTab('attendance')">Today's Attendance</button></div></div>
+<div class="card"><h2>Backup</h2><p class="muted">Export your local data regularly. This app stores data on this device; it is not a server database.</p><div class="actions"><button class="light" onclick="exportBackup()">Export Backup</button><button class="light" onclick="document.getElementById('backupFile').click()">Import Backup</button><input id="backupFile" class="hidden" type="file" accept=".json" onchange="importBackup(event)"></div></div>
+</section>
+
+<section id="employees" class="tab hidden">
+<div class="card"><h2>Employee Management</h2><div class="row">
+<div class="field"><label>Search code or name</label><input id="empSearch" oninput="renderEmployees()" placeholder="M212 / Priyantha"></div>
+<div class="field"><label>Status</label><select id="empFilter" onchange="renderEmployees()"><option value="active">Active</option><option value="inactive">Inactive</option><option value="all">All</option></select></div>
 </div>
-<div class="card"><h2>Manpower</h2>
-<div class="grid">
-<div class="field"><label>Underground Hookers</label><input id="underground" type="number" min="0" value="2"></div>
-<div class="field"><label>Onground Hookers</label><input id="onground" type="number" min="0" value="2"></div>
-<div class="field"><label>Supervisor</label><input id="supervisor" type="number" min="0" value="1"></div>
-<div class="field"><label>TBM Workers</label><input id="workers" type="number" min="0" value="32"></div>
+<div class="actions"><button class="primary" onclick="openEmployeeForm()">+ Add Employee</button><button class="light" onclick="toggleImport()">Bulk Import</button></div>
+<div id="importBox" class="hidden" style="margin-top:12px"><label>Paste: CODE - NAME (one per line)</label><textarea id="importText" placeholder="M212 - Priyantha&#10;M76 - DMWDissanayaka"></textarea><div class="actions"><button class="success" onclick="bulkImport()">Import Employees</button><button class="light" onclick="document.getElementById('importText').value=''">Clear</button></div><p class="muted">Existing codes are updated instead of duplicated.</p></div>
+<div id="employeeForm" class="hidden" style="margin-top:12px"><div class="row">
+<div class="field"><label>Employee Code</label><input id="empCode" placeholder="M750"></div>
+<div class="field"><label>Employee Name</label><input id="empName" placeholder="Full name"></div>
+</div><div class="actions"><button class="success" onclick="saveEmployee()">Save</button><button class="light" onclick="closeEmployeeForm()">Cancel</button></div></div>
+<div id="employeeList"></div></div>
+</section>
+
+<section id="attendance" class="tab hidden">
+<div class="card"><h2>Daily Attendance</h2><div class="row">
+<div class="field"><label>Date</label><input id="aDate" type="date" onchange="loadDay()"></div>
+<div class="field"><label>Shift</label><select id="aShift" onchange="loadDay()"><option>06:30 - 18:30</option><option>14:30 - 02:30</option><option>18:30 - 07:30</option><option>22:30 - 10:30</option></select></div>
+</div><div class="row">
+<div class="field"><label>TBM</label><input id="aTbm" value="01" oninput="saveDay()"></div>
+<div class="field"><label>Search employee</label><input id="aSearch" oninput="renderAttendance()" placeholder="Code or name"></div>
+</div><div class="statgrid"><div class="stat"><b id="aTotal">0</b><span>Active</span></div><div class="stat"><b id="aPresent">0</b><span>Present</span></div><div class="stat"><b id="aLeave">0</b><span>Leave</span></div><div class="stat"><b id="aAbsent">0</b><span>Absent</span></div></div></div>
+<div class="card"><h2>Work Categories</h2><p class="muted">Select the employees who worked in each category today. An employee can be selected in only one category for the same day.</p><div id="categories"></div></div>
+<div class="card"><h2>Not Present</h2><div id="notPresent"></div></div>
+<div class="card no-print"><div class="actions"><button class="primary" onclick="showTab('report')">Open Report</button><button class="success" onclick="saveDay();alert('Attendance saved.')">Save Attendance</button></div></div>
+</section>
+
+<section id="report" class="tab hidden">
+<div class="card no-print"><h2>Daily Report</h2><div class="row">
+<div class="field"><label>Date</label><input id="rDate" type="date" onchange="loadReportDay()"></div>
+<div class="field"><label>Shift</label><select id="rShift" onchange="loadReportDay()"><option>06:30 - 18:30</option><option>14:30 - 02:30</option><option>18:30 - 07:30</option><option>22:30 - 10:30</option></select></div>
+</div><div class="field"><label>Submitted by</label><input id="rBy" value="B G D Madhusankha"></div><div class="field"><label>Designation</label><input id="rRole" value="Task Supervisor"></div>
+<div class="actions"><button class="primary" onclick="generateReport()">Generate</button><button class="success" onclick="copyReport()">Copy</button><button class="success" onclick="shareWhatsApp()">WhatsApp</button><button class="light" onclick="printReport()">Print / Save PDF</button></div></div>
+<div class="card print-report"><h2>Preview</h2><div id="reportPreview" class="preview">Generate a report.</div></div>
+</section>
 </div>
-<div class="total"><span>Total Manpower</span><b id="total">37</b></div>
-</div>
-<div class="card"><h2>Leave & Absent</h2>
-<div class="field"><label>Leave — Employee Numbers</label><textarea id="leave" placeholder="287, 388, 491, 495"></textarea><div class="count-box"><span>Leave Count</span><b id="leaveCount">0</b></div></div>
-<div class="field"><label>Absent — Employee Numbers</label><textarea id="absent" placeholder="594, 595, 633"></textarea><div class="count-box"><span>Absent Count</span><b id="absentCount">0</b></div></div>
-</div>
-<div class="card"><h2>Submitted By</h2>
-<div class="field"><label>Supervisor Name</label><input id="submittedBy" value="B G D Madhusankha"></div>
-<div class="field"><label>Designation</label><input id="designation" value="Supervisor"></div>
-</div>
-<div class="card">
-<button class="generate" onclick="generateReport()">Generate Report</button>
-<button class="copy" onclick="copyReport()">Copy Report</button>
-<button class="whatsapp" onclick="shareWhatsApp()">Share to WhatsApp</button>
-<button class="clear" onclick="clearForm()">Clear</button>
-<div class="hint">Generate → Copy or Share to WhatsApp. Data is saved on this device.</div>
-</div>
-<div class="card"><h2>Preview</h2><div id="preview" class="preview">Your report will appear here.</div></div>
-</div>
+
 <script>
 const $=id=>document.getElementById(id);
+const KEY="manpowerSystemV1";
+const CATEGORIES=["Underground Hooker","Onground Hooker","Supervisor","TBM Worker","Welder","Safety Officer","Locomotive Driver","Locomotive Signalman","Gantry Crane Operator","Gantry Crane Rigger","Forklift Driver","Mechanic","Filter","Cleaner","Other"];
+const SHIFTS=["06:30 - 18:30","14:30 - 02:30","18:30 - 07:30","22:30 - 10:30"];
+let state={employees:[],days:{},editingCode:null};
+
 function today(){let d=new Date(),o=d.getTimezoneOffset(),x=new Date(d.getTime()-o*60000);return x.toISOString().slice(0,10)}
-function niceDate(v){return new Date(v+"T00:00:00").toLocaleDateString("en-GB",{day:"2-digit",month:"long",year:"numeric"})}
-function n(id){return Number($(id).value)||0}
-function total(){let t=n("underground")+n("onground")+n("supervisor")+n("workers");$("total").textContent=t;return t}
-function codes(v){return v.replace(/\n/g," ").split(/[,\s]+/).map(x=>x.trim()).filter(Boolean)}
-function list(v){return codes(v).join(", ")}
-function updateCounts(){
- $("leaveCount").textContent=codes($("leave").value).length;
- $("absentCount").textContent=codes($("absent").value).length;
+function uid(){return Math.random().toString(36).slice(2)+Date.now().toString(36)}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function niceDate(v){return v?new Date(v+"T00:00:00").toLocaleDateString("en-GB",{day:"2-digit",month:"long",year:"numeric"}):""}
+function save(){localStorage.setItem(KEY,JSON.stringify(state));refreshDashboard()}
+function load(){try{let s=JSON.parse(localStorage.getItem(KEY));if(s&&Array.isArray(s.employees))state=s}catch(e){}}
+function showTab(tab){
+ document.querySelectorAll(".tab").forEach(x=>x.classList.add("hidden"));
+ $(tab).classList.remove("hidden");
+ document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));
+ const b=$(tab==="dashboard"?"navDashboard":tab==="employees"?"navEmployees":tab==="attendance"?"navAttendance":"navReport");b.classList.add("active");
+ if(tab==="employees")renderEmployees();
+ if(tab==="attendance")loadDay();
+ if(tab==="report")loadReportDay();
 }
-function data(){return {date:$("date").value,tbm:$("tbm").value,shift:$("shift").value,underground:$("underground").value,onground:$("onground").value,supervisor:$("supervisor").value,workers:$("workers").value,leave:$("leave").value,absent:$("absent").value,submittedBy:$("submittedBy").value,designation:$("designation").value}}
-function save(){localStorage.setItem("manpowerReportData",JSON.stringify(data()));total()}
+function refreshDashboard(){
+ const d=state.days[today()]||{}, a=calcDay(d);
+ $("dTotal").textContent=state.employees.filter(e=>e.active).length;
+ $("dPresent").textContent=a.present;
+ $("dLeave").textContent=a.leave;
+ $("dAbsent").textContent=a.absent;
+}
+function activeEmployees(){return state.employees.filter(e=>e.active)}
+function openEmployeeForm(code=null){
+ state.editingCode=code;
+ $("employeeForm").classList.remove("hidden");
+ const e=state.employees.find(x=>x.code===code);
+ $("empCode").value=e?e.code:""; $("empName").value=e?e.name:"";
+ $("empCode").disabled=!!e;
+ $("empName").focus();
+}
+function closeEmployeeForm(){state.editingCode=null;$("employeeForm").classList.add("hidden");$("empCode").disabled=false;$("empCode").value="";$("empName").value=""}
+function saveEmployee(){
+ const code=$("empCode").value.trim().toUpperCase(),name=$("empName").value.trim();
+ if(!code||!name)return alert("Enter employee code and name.");
+ if(state.editingCode){const e=state.employees.find(x=>x.code===state.editingCode);if(e)e.name=name}
+ else {if(state.employees.some(e=>e.code===code))return alert("This code already exists.");state.employees.push({code,name,active:true})}
+ save();closeEmployeeForm();renderEmployees();
+}
+function toggleEmployee(code){
+ const e=state.employees.find(x=>x.code===code);if(!e)return;
+ e.active=!e.active;save();renderEmployees();
+}
+function renderEmployees(){
+ const q=($("empSearch").value||"").trim().toLowerCase(),f=$("empFilter").value;
+ const list=state.employees.filter(e=>(f==="all"||(f==="active"?e.active:!e.active))&&(!q||e.code.toLowerCase().includes(q)||e.name.toLowerCase().includes(q))).sort((a,b)=>a.code.localeCompare(b.code));
+ $("employeeList").innerHTML=list.length?list.map(e=>`<div class="employee"><div><div class="code">${esc(e.code)}</div><div class="name">${esc(e.name)}</div><small>${e.active?"Active":"Inactive"}</small></div><div class="actions"><button class="light" onclick="openEmployeeForm('${esc(e.code)}')">Edit</button><button class="${e.active?"danger":"success"}" onclick="toggleEmployee('${esc(e.code)}')">${e.active?"Deactivate":"Activate"}</button></div></div>`).join(""):"<div class='empty'>No employees found.</div>";
+}
+function toggleImport(){$("importBox").classList.toggle("hidden")}
+function bulkImport(){
+ const lines=$("importText").value.split(/\n/).map(x=>x.trim()).filter(Boolean);let added=0,updated=0;
+ for(const line of lines){
+   const m=line.match(/^\s*([^,–—-]+?)\s*(?:–|—|-)\s*(.+?)\s*$/);
+   if(!m)continue;
+   const code=m[1].trim().toUpperCase(),name=m[2].trim();if(!code||!name)continue;
+   const old=state.employees.find(e=>e.code===code);
+   if(old){old.name=name;old.active=true;updated++}else{state.employees.push({code,name,active:true});added++}
+ }
+ save();renderEmployees();alert(`Imported: ${added} new, ${updated} updated.`);
+}
+function dayKey(){return ($("aDate").value||today())+"|"+$("aShift").value}
+function blankDay(){return {tbm:"01",categories:{},leave:[],absent:[]}}
+function getDay(){const k=dayKey();if(!state.days[k])state.days[k]=blankDay();return state.days[k]}
+function loadDay(){
+ if(!$("aDate").value)$("aDate").value=today();
+ const d=getDay();$("aTbm").value=d.tbm||"01";renderAttendance();
+}
+function saveDay(){const d=getDay();d.tbm=$("aTbm").value.trim();state.days[dayKey()]=d;save()}
+function assignedCodes(d){const set=new Set();Object.values(d.categories||{}).forEach(arr=>arr.forEach(c=>set.add(c)));return set}
+function calcDay(d){
+ const active=activeEmployees(),assigned=assignedCodes(d),leave=new Set(d.leave||[]),absent=new Set(d.absent||[]);
+ let present=assigned.size;
+ return {total:active.length,present,leave:[...leave].filter(c=>active.some(e=>e.code===c)).length,absent:[...absent].filter(c=>active.some(e=>e.code===c)).length};
+}
+function renderAttendance(){
+ const d=getDay(),q=($("aSearch").value||"").trim().toLowerCase(),assigned=assignedCodes(d);
+ $("categories").innerHTML=CATEGORIES.map(cat=>{
+   const selected=(d.categories[cat]||[]),available=activeEmployees().filter(e=>(!q||e.code.toLowerCase().includes(q)||e.name.toLowerCase().includes(q))&&(assigned.has(e.code)?selected.includes(e.code):true));
+   const rows=available.length?available.map(e=>`<div class="listline"><span><b>${esc(e.code)}</b> — ${esc(e.name)}</span><button class="${selected.includes(e.code)?"success":"light"}" onclick="toggleCategory('${esc(cat)}','${esc(e.code)}')">${selected.includes(e.code)?"Selected":"Add"}</button></div>`).join(""):"<div class='muted'>No matching employees.</div>";
+   return `<div class="category"><h3>${esc(cat)} <span class="muted">(${selected.length})</span></h3>${rows}</div>`;
+ }).join("");
+ const not=activeEmployees().filter(e=>!assigned.has(e.code)),leave=new Set(d.leave||[]),absent=new Set(d.absent||[]);
+ $("notPresent").innerHTML=not.length?not.map(e=>`<div class="listline"><span><b>${esc(e.code)}</b> — ${esc(e.name)}</span><div class="actions"><button class="${leave.has(e.code)?"warn":"light"}" onclick="setStatus('${esc(e.code)}','leave')">Leave</button><button class="${absent.has(e.code)?"danger":"light"}" onclick="setStatus('${esc(e.code)}','absent')">Absent</button></div></div>`).join(""):"<div class='empty'>Everyone is assigned/present.</div>";
+ const c=calcDay(d);$("aTotal").textContent=c.total;$("aPresent").textContent=c.present;$("aLeave").textContent=c.leave;$("aAbsent").textContent=c.absent;
+}
+function toggleCategory(cat,code){
+ const d=getDay();d.categories[cat]=d.categories[cat]||[];const arr=d.categories[cat],i=arr.indexOf(code);
+ if(i>=0)arr.splice(i,1);else{Object.keys(d.categories).forEach(k=>{d.categories[k]=(d.categories[k]||[]).filter(x=>x!==code)});d.leave=(d.leave||[]).filter(x=>x!==code);d.absent=(d.absent||[]).filter(x=>x!==code);arr.push(code)}
+ saveDay();renderAttendance();
+}
+function setStatus(code,status){
+ const d=getDay();d.leave=(d.leave||[]).filter(x=>x!==code);d.absent=(d.absent||[]).filter(x=>x!==code);
+ if(status==="leave")d.leave.push(code);else d.absent.push(code);saveDay();renderAttendance();
+}
+function loadReportDay(){
+ $("rDate").value=$("rDate").value||$("aDate").value||today();$("rShift").value=$("rShift").value||$("aShift").value;generateReport();
+}
+function currentReportDay(){
+ const k=($("rDate").value||today())+"|"+$("rShift").value;return state.days[k]||blankDay();
+}
 function generateReport(){
- let t=total(),r=`DAILY MANPOWER REPORT
-
-Date: ${niceDate($("date").value)}
-TBM: ${$("tbm").value.trim()}
-Shift: ${$("shift").value.trim()}
-
-MANPOWER
-────────────────────────
-Underground Hookers : ${String(n("underground")).padStart(2,"0")}
-Onground Hookers    : ${String(n("onground")).padStart(2,"0")}
-Supervisor          : ${String(n("supervisor")).padStart(2,"0")}
-TBM                 : ${String(n("workers")).padStart(2,"0")}
-Total               : ${String(t).padStart(2,"0")}
-
-LEAVE
-────────────────────────
-Count : ${String(codes($("leave").value).length).padStart(2,"0")}
-Codes : ${list($("leave").value)||"None"}
-
-ABSENT
-────────────────────────
-Count : ${String(codes($("absent").value).length).padStart(2,"0")}
-Codes : ${list($("absent").value)||"None"}
-
-Submitted by:
-${$("submittedBy").value.trim()}
-${$("designation").value.trim()}`;
-$("preview").textContent=r;save()
+ const d=currentReportDay(), date=$("rDate").value||today(), shift=$("rShift").value, by=$("rBy").value.trim(),role=$("rRole").value.trim();
+ const lines=["DAILY MANPOWER REPORT","","HABARANA – PALUGASWEWA TUNNEL PROJECT","Date: "+niceDate(date),"Shift: "+shift,"TBM: "+(d.tbm||"01"),"","MANPOWER","────────────────────────"];
+ let total=0;
+ CATEGORIES.forEach(cat=>{const arr=d.categories[cat]||[];if(!arr.length)return;lines.push(cat.toUpperCase()+" ("+arr.length+")");arr.forEach(code=>{const e=state.employees.find(x=>x.code===code);lines.push(code+" - "+(e?e.name:"Unknown"))});lines.push("");total+=arr.length});
+ const c=calcDay(d);lines.push("ATTENDANCE SUMMARY","────────────────────────","Total Active : "+c.total,"Present     : "+c.present,"Leave       : "+c.leave,"Absent      : "+c.absent,"","LEAVE CODES",""+((d.leave||[]).join(", ")||"None"),"","ABSENT CODES",""+((d.absent||[]).join(", ")||"None"),"","Submitted by:",by||"B G D Madhusankha",role||"Task Supervisor");
+ $("reportPreview").textContent=lines.join("\n");return $("reportPreview").textContent;
 }
-async function copyReport(){
- generateReport();let text=$("preview").textContent;
- try{await navigator.clipboard.writeText(text)}catch(e){let ta=document.createElement("textarea");ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove()}
- alert("Report copied. Paste it into WhatsApp.")
+async function copyReport(){const t=generateReport();try{await navigator.clipboard.writeText(t)}catch(e){const ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove()}alert("Report copied.")}
+function shareWhatsApp(){const t=generateReport(),u="https://api.whatsapp.com/send?text="+encodeURIComponent(t);location.href=u}
+function printReport(){generateReport();window.print()}
+function exportBackup(){
+ const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="manpower-backup-"+today()+".json";a.click();URL.revokeObjectURL(a.href);
 }
-function clearForm(){
- if(!confirm("Clear all report data?")) return;
- ["tbm","shift","underground","onground","supervisor","workers","leave","absent"].forEach(id=>{
-   const el=$(id);
-   if(el) el.value="";
- });
- $("date").value=today();
- $("submittedBy").value="B G D Madhusankha";
- $("designation").value="Supervisor";
- $("preview").textContent="Your report will appear here.";
- total();
- updateCounts();
- save();
- window.scrollTo({top:0,behavior:"smooth"});
+function importBackup(ev){
+ const f=ev.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const s=JSON.parse(r.result);if(!Array.isArray(s.employees)||!s.days)throw Error();state=s;save();renderEmployees();refreshDashboard();alert("Backup imported.")}catch(e){alert("Invalid backup file.")}};r.readAsText(f)
 }
-function shareWhatsApp(){
- generateReport();
- const text=$("preview").textContent;
- const url="https://api.whatsapp.com/send?text="+encodeURIComponent(text);
- const win=window.open(url,"_blank");
- if(!win) window.location.href=url;
-}
-function load(){
- $("date").value=today();
- try{let s=JSON.parse(localStorage.getItem("manpowerReportData"));if(s)Object.keys(s).forEach(k=>{if($(k))$(k).value=s[k]})}catch(e){}
- if(!$("date").value)$("date").value=today();total()
-}
-["underground","onground","supervisor","workers"].forEach(id=>$(id).addEventListener("input",save));
-["date","tbm","shift","submittedBy","designation"].forEach(id=>$(id).addEventListener("input",save));
-["leave","absent"].forEach(id=>$(id).addEventListener("input",()=>{updateCounts();save()}));
 load();
-updateCounts();
-if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js"))}
+$("aDate").value=today();$("rDate").value=today();
+$("rShift").value="06:30 - 18:30";$("aShift").value="06:30 - 18:30";
+refreshDashboard();
 </script>
 </body>
 </html>
