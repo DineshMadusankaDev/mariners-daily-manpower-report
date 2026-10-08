@@ -18,7 +18,7 @@ button{border:0;border-radius:10px;padding:11px 13px;font-size:14px;font-weight:
 h2{font-size:16px;margin:0 0 12px}.muted{color:#6b7280;font-size:12px}.statgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.stat{background:#f8fafc;border-radius:10px;padding:10px;text-align:center}.stat b{display:block;font-size:20px}.stat span{font-size:11px;color:#64748b}
 .employee{display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid #e5e7eb;border-radius:11px;padding:10px;margin-top:7px}.employee .name{font-weight:700;font-size:14px}.employee .code{font-family:monospace;color:#2563eb;font-size:12px}.employee small{display:block;color:#6b7280;font-size:11px}.employee button{padding:7px 9px;font-size:11px}
 .chips{display:flex;gap:6px;flex-wrap:wrap}.chip{background:#eef2ff;color:#3730a3;padding:6px 9px;border-radius:999px;font-size:12px}
-.category{border:1px solid #e5e7eb;border-radius:13px;padding:12px;margin-bottom:10px}.category h3{margin:0 0 9px;font-size:14px}.selected{background:#ecfdf5;border-color:#86efac}.notpresent{background:#fff7ed;border-color:#fed7aa}.listline{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #f1f5f9}.listline:last-child{border-bottom:0}
+.category{border:1px solid #e5e7eb;border-radius:13px;margin-bottom:10px;overflow:hidden}.category.open{border-color:#cbd5e1}.category-head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;background:#fff;color:#111827;text-align:left;padding:14px 12px;border-radius:0;font-size:14px}.category-head:active{background:#f8fafc}.category-head .arrow{font-size:16px;color:#64748b;transition:transform .15s}.category.open .category-head .arrow{transform:rotate(180deg)}.category-body{padding:0 12px 10px;border-top:1px solid #f1f5f9}.selected{background:#ecfdf5;border-color:#86efac}.notpresent{background:#fff7ed;border-color:#fed7aa}.listline{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #f1f5f9}.listline:last-child{border-bottom:0}
 .preview{white-space:pre-wrap;background:#111827;color:#f9fafb;border-radius:12px;padding:14px;font:12px/1.55 monospace;overflow:auto}
 .empty{padding:18px;text-align:center;color:#6b7280;border:1px dashed #cbd5e1;border-radius:11px}.hidden{display:none!important}.count{font-weight:800}
 @media(max-width:520px){.row{grid-template-columns:1fr}.statgrid{grid-template-columns:repeat(2,1fr)}.nav{grid-template-columns:repeat(2,1fr)}}
@@ -92,6 +92,7 @@ const KEY="manpowerSystemV1";
 const CATEGORIES=["Underground Hooker","Onground Hooker","Supervisor","TBM Worker","Welder","Safety Officer","Locomotive Driver","Locomotive Signalman","Gantry Crane Operator","Gantry Crane Rigger","Forklift Driver","Mechanic","Filter","Cleaner","Other"];
 const SHIFTS=["06:30 - 18:30","14:30 - 02:30","18:30 - 07:30","22:30 - 10:30"];
 let state={employees:[],days:{},editingCode:null};
+let openCategories=new Set();
 
 function today(){let d=new Date(),o=d.getTimezoneOffset(),x=new Date(d.getTime()-o*60000);return x.toISOString().slice(0,10)}
 function uid(){return Math.random().toString(36).slice(2)+Date.now().toString(36)}
@@ -170,13 +171,24 @@ function calcDay(d){
 function renderAttendance(){
  const d=getDay(),q=($("aSearch").value||"").trim().toLowerCase(),assigned=assignedCodes(d);
  $("categories").innerHTML=CATEGORIES.map(cat=>{
-   const selected=(d.categories[cat]||[]),available=activeEmployees().filter(e=>(!q||e.code.toLowerCase().includes(q)||e.name.toLowerCase().includes(q))&&(assigned.has(e.code)?selected.includes(e.code):true));
-   const rows=available.length?available.map(e=>`<div class="listline"><span><b>${esc(e.code)}</b> — ${esc(e.name)}</span><button class="${selected.includes(e.code)?"success":"light"}" onclick="toggleCategory('${esc(cat)}','${esc(e.code)}')">${selected.includes(e.code)?"Selected":"Add"}</button></div>`).join(""):"<div class='muted'>No matching employees.</div>";
-   return `<div class="category"><h3>${esc(cat)} <span class="muted">(${selected.length})</span></h3>${rows}</div>`;
+   const selected=(d.categories[cat]||[]);
+   const isOpen=openCategories.has(cat);
+   let body="";
+   if(isOpen){
+     const available=activeEmployees().filter(e=>(!q||e.code.toLowerCase().includes(q)||e.name.toLowerCase().includes(q))&&(assigned.has(e.code)?selected.includes(e.code):true));
+     const rows=available.length?available.map(e=>`<div class="listline"><span><b>${esc(e.code)}</b> — ${esc(e.name)}</span><button class="${selected.includes(e.code)?"success":"light"}" onclick="toggleCategory('${esc(cat)}','${esc(e.code)}')">${selected.includes(e.code)?"Selected":"Add"}</button></div>`).join(""):"<div class='muted' style="padding:10px 0">No matching employees.</div>";
+     body=`<div class="category-body">${rows}</div>`;
+   }
+   return `<div class="category ${isOpen?"open":""}"><button type="button" class="category-head" onclick="toggleCategoryOpen('${esc(cat)}')"><span><b>${esc(cat)}</b> <span class="muted">(${selected.length})</span></span><span class="arrow">▼</span></button>${body}</div>`;
  }).join("");
  const not=activeEmployees().filter(e=>!assigned.has(e.code)),leave=new Set(d.leave||[]),absent=new Set(d.absent||[]);
  $("notPresent").innerHTML=not.length?not.map(e=>`<div class="listline"><span><b>${esc(e.code)}</b> — ${esc(e.name)}</span><div class="actions"><button class="${leave.has(e.code)?"warn":"light"}" onclick="setStatus('${esc(e.code)}','leave')">Leave</button><button class="${absent.has(e.code)?"danger":"light"}" onclick="setStatus('${esc(e.code)}','absent')">Absent</button></div></div>`).join(""):"<div class='empty'>Everyone is assigned/present.</div>";
  const c=calcDay(d);$("aTotal").textContent=c.total;$("aPresent").textContent=c.present;$("aLeave").textContent=c.leave;$("aAbsent").textContent=c.absent;
+}
+function toggleCategoryOpen(cat){
+ if(openCategories.has(cat)) openCategories.delete(cat);
+ else openCategories.add(cat);
+ renderAttendance();
 }
 function toggleCategory(cat,code){
  const d=getDay();d.categories[cat]=d.categories[cat]||[];const arr=d.categories[cat],i=arr.indexOf(code);
