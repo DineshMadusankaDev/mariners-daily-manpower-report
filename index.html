@@ -185,7 +185,7 @@ function renderAttendance(){
    let body="";
    if(isOpen){
      const available=activeEmployees().filter(e=>(!q||e.code.toLowerCase().includes(q)||e.name.toLowerCase().includes(q))&&(assigned.has(e.code)?selected.includes(e.code):true));
-     const rows=available.length?available.map(e=>`<div class="listline"><span><b>${esc(e.code)}</b> — ${esc(e.name)}</span><button class="${selected.includes(e.code)?"success":"light"}" onclick="toggleCategory('${esc(cat)}','${esc(e.code)}')">${selected.includes(e.code)?"Selected":"Add"}</button></div>`).join(""):"<div class='muted' style="padding:10px 0">No matching employees.</div>";
+     const rows=available.length?available.map(e=>`<div class="listline"><span><b>${esc(e.code)}</b> — ${esc(e.name)}</span><button class="${selected.includes(e.code)?"success":"light"}" onclick="toggleCategory('${esc(cat)}','${esc(e.code)}')">${selected.includes(e.code)?"Selected":"Add"}</button></div>`).join(""):`<div class="muted" style="padding:10px 0">No matching employees.</div>`;
      body=`<div class="category-body">${rows}</div>`;
    }
    return `<div class="category ${isOpen?"open":""}"><button type="button" class="category-head" onclick="toggleCategoryOpen('${esc(cat)}')"><span><b>${esc(cat)}</b> <span class="muted">(${selected.length})</span></span><span class="arrow">▼</span></button>${body}</div>`;
