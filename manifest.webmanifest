@@ -1,8 +1,8 @@
 {
   "id": "/mariners-daily-manpower-report/",
-  "name": "Daily Manpower Report",
-  "short_name": "Manpower Report",
-  "description": "Mobile daily manpower report generator for TBM site work.",
+  "name": "Manpower Management",
+  "short_name": "Manpower",
+  "description": "Mobile manpower attendance and daily report system for TBM site work.",
   "start_url": "/mariners-daily-manpower-report/",
   "scope": "/mariners-daily-manpower-report/",
   "display": "standalone",
