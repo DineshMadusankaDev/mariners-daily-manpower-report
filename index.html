@@ -259,9 +259,10 @@ function shareWhatsApp(){const t=generateReport(),u="https://api.whatsapp.com/se
 function printReport(){
  const d=currentReportDay(),date=$("rDate").value||today(),shift=$("rShift").value;
  const active=activeEmployees().slice().sort((a,b)=>a.code.localeCompare(b.code));
- const assigned=assignedCodes(d),leave=new Set(d.leave||[]),absent=new Set(d.absent||[]);
+ const assigned=assignedCodes(d),absent=new Set(d.absent||[]);
+ const selected=active.filter(e=>assigned.has(e.code)||absent.has(e.code));
  const statusFor=code=>assigned.has(code)?"✅":"❎";
- const mid=Math.ceil(active.length/2),left=active.slice(0,mid),right=active.slice(mid);
+ const mid=Math.ceil(selected.length/2),left=selected.slice(0,mid),right=selected.slice(mid);
  const row=e=>'<tr><td class="status">'+statusFor(e.code)+'</td><td class="code">'+esc(e.code)+'</td><td class="name">'+esc(e.name)+'</td></tr>';
  const header='<tr><th class="status">✓/✕</th><th>CODE</th><th>NAME</th></tr>';
  $("printSheet").innerHTML='<h1>Daily Attendance Sheet</h1>'
@@ -269,7 +270,7 @@ function printReport(){
   +'<table><tr>'
   +'<td class="half" style="vertical-align:top;border:0;padding:0 3px 0 0"><table>'+header+left.map(row).join("")+'</table></td>'
   +'<td class="half" style="vertical-align:top;border:0;padding:0 0 0 3px"><table>'+header+right.map(row).join("")+'</table></td>'
-  +'</tr></table><div class="footer">✅ Present &nbsp;&nbsp; ❎ Not present &nbsp;&nbsp; Total: '+active.length+' employees</div>';
+  +'</tr></table><div class="footer">✅ Present &nbsp;&nbsp; ❎ Not present &nbsp;&nbsp; Selected: '+selected.length+' employees</div>';
  window.print();
 }
 function exportBackup(){
