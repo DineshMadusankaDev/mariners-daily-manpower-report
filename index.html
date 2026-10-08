@@ -206,7 +206,14 @@ function renderAttendance(){
    return `<div class="category ${isOpen?"open":""}"><button type="button" class="category-head" onclick="toggleCategoryOpen('${esc(cat)}')"><span><b>${esc(cat)}</b> <span class="muted">(${selected.length})</span></span><span class="arrow">▼</span></button>${body}</div>`;
  }).join("");
  const not=activeEmployees().filter(e=>!assigned.has(e.code)),leave=new Set(d.leave||[]),absent=new Set(d.absent||[]);
- $("notPresent").innerHTML=not.length?not.map(e=>`<div class="listline"><span><b>${esc(e.code)}</b> — ${esc(e.name)}</span><div class="actions"><button class="${leave.has(e.code)?"warn":"light"}" onclick="setStatus('${esc(e.code)}','leave')">Leave</button><button class="${absent.has(e.code)?"danger":"light"}" onclick="setStatus('${esc(e.code)}','absent')">Absent</button></div></div>`).join(""):"<div class='empty'>Everyone is assigned/present.</div>";
+ $("notPresent").innerHTML=not.length?not.map(e=>{
+   const isLeave=leave.has(e.code),isAbsent=absent.has(e.code);
+   return `<div class="listline"><span><b>${esc(e.code)}</b> — ${esc(e.name)}</span><div class="actions">
+   <button type="button" class="${isLeave?"warn":"light"}" onclick="setStatus('${esc(e.code)}','leave')">${isLeave?"Leave ✓":"Leave"}</button>
+   <button type="button" class="${isAbsent?"danger":"light"}" onclick="setStatus('${esc(e.code)}','absent')">${isAbsent?"Absent ✓":"Absent"}</button>
+   ${(isLeave||isAbsent)?'<button type="button" class="light" onclick="clearStatus(\''+esc(e.code)+'\')">Clear</button>':""}
+   </div></div>`;
+ }).join(""):"<div class='empty'>Everyone is assigned/present.</div>";
  const c=calcDay(d);$("aTotal").textContent=c.total;$("aPresent").textContent=c.present;$("aLeave").textContent=c.leave;$("aAbsent").textContent=c.absent;
 }
 function toggleCategoryOpen(cat){
@@ -237,8 +244,26 @@ function toggleCategory(cat,code){
 }
 window.toggleCategory=toggleCategory;
 function setStatus(code,status){
- const d=getDay();d.leave=(d.leave||[]).filter(x=>x!==code);d.absent=(d.absent||[]).filter(x=>x!==code);
- if(status==="leave")d.leave.push(code);else d.absent.push(code);saveDay();renderAttendance();
+ const d=getDay();
+ d.leave=Array.isArray(d.leave)?d.leave:[];
+ d.absent=Array.isArray(d.absent)?d.absent:[];
+ const list=status==="leave"?d.leave:d.absent;
+ const other=status==="leave"?d.absent:d.leave;
+ if(list.includes(code)){
+   if(status==="leave")d.leave=d.leave.filter(x=>x!==code);
+   else d.absent=d.absent.filter(x=>x!==code);
+ }else{
+   d.leave=d.leave.filter(x=>x!==code);
+   d.absent=d.absent.filter(x=>x!==code);
+   list.push(code);
+ }
+ saveDay();renderAttendance();refreshDashboard();
+}
+function clearStatus(code){
+ const d=getDay();
+ d.leave=Array.isArray(d.leave)?d.leave.filter(x=>x!==code):[];
+ d.absent=Array.isArray(d.absent)?d.absent.filter(x=>x!==code):[];
+ saveDay();renderAttendance();refreshDashboard();
 }
 function loadReportDay(){
  $("rDate").value=$("rDate").value||$("aDate").value||today();$("rShift").value=$("rShift").value||$("aShift").value;generateReport();
