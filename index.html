@@ -82,7 +82,7 @@ body{background:#fff}.no-print{display:none!important}.app{max-width:none;paddin
 <div class="field"><label>Shift</label><select id="aShift" onchange="loadDay()"><option>06:30 - 18:30</option><option>14:30 - 02:30</option><option>18:30 - 07:30</option><option>22:30 - 10:30</option></select></div>
 </div><div class="row">
 <div class="field"><label>TBM</label><input id="aTbm" value="01" oninput="saveDay()"></div>
-<div class="field"><label>Search employee</label><input id="aSearch" oninput="renderAttendance()" placeholder="Code or name"></div>
+<div class="field"><label>Search employee</label><input id="aSearch" oninput="searchAttendance()" placeholder="Code or name"></div>
 </div><div class="statgrid"><div class="stat"><b id="aTotal">0</b><span>Active</span></div><div class="stat"><b id="aPresent">0</b><span>Present</span></div><div class="stat"><b id="aLeave">0</b><span>Leave</span></div><div class="stat"><b id="aAbsent">0</b><span>Absent</span></div></div></div>
 <div class="card"><h2>Work Categories</h2><p class="muted">Select the employees who worked in each category today. An employee can be selected in only one category for the same day.</p><div id="categories"></div></div>
 <div class="card"><h2>Not Present</h2><div id="notPresent"></div></div>
@@ -219,6 +219,11 @@ function renderAttendance(){
 function toggleCategoryOpen(cat){
  if(openCategories.has(cat)) openCategories.delete(cat);
  else openCategories.add(cat);
+ renderAttendance();
+}
+function searchAttendance(){
+ const q=($("aSearch").value||"").trim();
+ if(q) CATEGORIES.forEach(cat=>openCategories.add(cat));
  renderAttendance();
 }
 function toggleCategory(cat,code){
