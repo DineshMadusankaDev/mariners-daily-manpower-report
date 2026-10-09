@@ -23,7 +23,7 @@ h2{font-size:16px;margin:0 0 12px}.muted{color:#6b7280;font-size:12px}.statgrid{
 .trend-row{display:grid;grid-template-columns:62px 1fr 28px;gap:8px;align-items:center;margin:8px 0}.trend-date{font-size:10px;font-weight:700;color:#475569}.trend-bar{height:13px;background:#f1f5f9;border-radius:999px;overflow:hidden;display:flex}.trend-bar span{height:100%}.trend-present{background:#22c55e}.trend-leave{background:#f59e0b}.trend-absent{background:#ef4444}.trend-total{font-size:10px;font-weight:800;text-align:right}
 .change-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.change-box{background:#f8fafc;border-radius:12px;padding:12px;text-align:center}.change-box b{display:block;font-size:22px}.change-box span{display:block;color:#64748b;font-size:10px;margin-top:3px}.last-saved{background:#f8fafc;border-radius:12px;padding:12px}.last-saved .big{font-weight:800;font-size:14px}.last-saved .meta{color:#64748b;font-size:11px;margin-top:4px}.empty-dash{padding:16px;text-align:center;color:#64748b;border:1px dashed #cbd5e1;border-radius:11px;font-size:12px}
 @media(max-width:520px){.row{grid-template-columns:1fr}.statgrid{grid-template-columns:repeat(2,1fr)}.nav{grid-template-columns:repeat(2,1fr)}.dash-statgrid{grid-template-columns:repeat(2,1fr)}.shift-grid{grid-template-columns:1fr}.history-row{grid-template-columns:1.1fr 1fr repeat(3,.55fr)}.history-row .history-status{grid-column:1/-1}.change-grid{grid-template-columns:1fr 1fr 1fr}.change-box{padding:9px 4px}.change-box b{font-size:18px}}
-.employee{display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid #e5e7eb;border-radius:11px;padding:10px;margin-top:7px}.employee .name{font-weight:700;font-size:14px}.employee .code{font-family:monospace;color:#2563eb;font-size:12px}.employee small{display:block;color:#6b7280;font-size:11px}.employee button{padding:7px 9px;font-size:11px}
+.employee-shift-group{margin-top:18px}.employee-shift-group h3{font-size:15px;margin:0 0 8px;color:#111827}.employee-shift-group .empty{padding:10px;color:#6b7280;background:#f9fafb;border-radius:8px;font-size:13px}.employee{display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid #e5e7eb;border-radius:11px;padding:10px;margin-top:7px}.employee .name{font-weight:700;font-size:14px}.employee .code{font-family:monospace;color:#2563eb;font-size:12px}.employee small{display:block;color:#6b7280;font-size:11px}.employee button{padding:7px 9px;font-size:11px}
 .chips{display:flex;gap:6px;flex-wrap:wrap}.chip{background:#eef2ff;color:#3730a3;padding:6px 9px;border-radius:999px;font-size:12px}
 .category{border:1px solid #e5e7eb;border-radius:13px;margin-bottom:10px;overflow:hidden}.category.open{border-color:#cbd5e1}.category-head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;background:#fff;color:#111827;text-align:left;padding:14px 12px;border-radius:0;font-size:14px}.category-head:active{background:#f8fafc}.category-head .arrow{font-size:16px;color:#64748b;transition:transform .15s}.category.open .category-head .arrow{transform:rotate(180deg)}.category-body{padding:0 12px 10px;border-top:1px solid #f1f5f9}.selected{background:#ecfdf5;border-color:#86efac}.notpresent{background:#fff7ed;border-color:#fed7aa}.listline{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #f1f5f9}.listline:last-child{border-bottom:0}
 .preview{white-space:pre-wrap;background:#111827;color:#f9fafb;border-radius:12px;padding:14px;font:12px/1.55 monospace;overflow:auto}
@@ -140,6 +140,7 @@ h2{font-size:16px;margin:0 0 12px}.muted{color:#6b7280;font-size:12px}.statgrid{
 <div id="employeeForm" class="hidden" style="margin-top:12px"><div class="row">
 <div class="field"><label>Employee Code</label><input id="empCode" placeholder="M750"></div>
 <div class="field"><label>Employee Name</label><input id="empName" placeholder="Full name"></div>
+<div class="field"><label>Assign Shift</label><select id="empShift"><option value="06:30 - 18:30">Morning — 06:30 AM to 06:30 PM</option><option value="14:30 - 02:30">Afternoon — 02:30 PM to 02:30 AM</option><option value="18:30 - 07:30">Night — 06:30 PM to 07:30 AM</option><option value="22:30 - 10:30">Night — 10:30 PM to 10:30 AM</option></select><small class="muted">Choose the shift for this employee’s attendance.</small></div>
 </div><div class="actions"><button class="success" onclick="saveEmployee()">Save</button><button class="light" onclick="closeEmployeeForm()">Cancel</button></div></div>
 <div id="employeeList"></div></div>
 </section>
@@ -255,24 +256,29 @@ function openEmployeeForm(code=null){
  const e=state.employees.find(x=>x.code===code);
  $("empCode").value=e?e.code:""; $("empName").value=e?e.name:"";
  $("empCode").disabled=!!e;
+ $("empShift").value=e&&Array.isArray(e.shifts)&&e.shifts.length?e.shifts[0]:$("aShift").value;
  $("empName").focus();
 }
-function closeEmployeeForm(){state.editingCode=null;$("employeeForm").classList.add("hidden");$("empCode").disabled=false;$("empCode").value="";$("empName").value=""}
+function closeEmployeeForm(){state.editingCode=null;$("employeeForm").classList.add("hidden");$("empCode").disabled=false;$("empCode").value="";$("empName").value="";$("empShift").value=$("aShift").value}
 function saveEmployee(){
- const code=$("empCode").value.trim().toUpperCase(),name=$("empName").value.trim();
+ const code=$("empCode").value.trim().toUpperCase(),name=$("empName").value.trim(),shift=$("empShift").value;
  if(!code||!name)return alert("Enter employee code and name.");
- if(state.editingCode){const e=state.employees.find(x=>x.code===state.editingCode);if(e)e.name=name}
- else {if(state.employees.some(e=>e.code===code))return alert("This code already exists.");state.employees.push({code,name,active:true,shifts:[$("aShift").value],createdAt:today()})}
- save();closeEmployeeForm();renderEmployees();
+ if(state.editingCode){const e=state.employees.find(x=>x.code===state.editingCode);if(e){e.name=name;e.shifts=[shift]}}
+ else {if(state.employees.some(e=>e.code===code))return alert("This code already exists.");state.employees.push({code,name,active:true,shifts:[shift],createdAt:today()})}
+ save();closeEmployeeForm();renderEmployees();renderAttendance();
 }
 function toggleEmployee(code){
  const e=state.employees.find(x=>x.code===code);if(!e)return;
- e.active=!e.active;if(e.active){delete e.deactivatedAt}else{e.deactivatedAt=today()}save();renderEmployees();
+ e.active=!e.active;if(e.active){delete e.deactivatedAt}else{e.deactivatedAt=today()}save();renderEmployees();renderAttendance();
 }
 function renderEmployees(){
  const q=($("empSearch").value||"").trim().toLowerCase(),f=$("empFilter").value;
- const list=state.employees.filter(e=>(f==="all"||(f==="active"?e.active:!e.active))&&(!q||e.code.toLowerCase().includes(q)||e.name.toLowerCase().includes(q))).sort((a,b)=>a.code.localeCompare(b.code));
- $("employeeList").innerHTML=list.length?list.map(e=>`<div class="employee"><div><div class="code">${esc(e.code)}</div><div class="name">${esc(e.name)}</div><small>${e.active?"Active":"Inactive"}</small></div><div class="actions"><button class="light" onclick="openEmployeeForm('${esc(e.code)}')">Edit</button><button class="${e.active?"danger":"success"}" onclick="toggleEmployee('${esc(e.code)}')">${e.active?"Deactivate":"Activate"}</button></div></div>`).join(""):"<div class='empty'>No employees found.</div>";
+ const matches=state.employees.filter(e=>(f==="all"||(f==="active"?e.active:!e.active))&&(!q||e.code.toLowerCase().includes(q)||e.name.toLowerCase().includes(q))).sort((a,b)=>a.code.localeCompare(b.code));
+ const labels={"06:30 - 18:30":"🌅 Morning Shift — 06:30 AM to 06:30 PM","14:30 - 02:30":"🌤 Afternoon Shift — 02:30 PM to 02:30 AM","18:30 - 07:30":"🌙 Night Shift — 06:30 PM to 07:30 AM","22:30 - 10:30":"🌙 Night Shift — 10:30 PM to 10:30 AM"};
+ $("employeeList").innerHTML=SHIFTS.map(shift=>{
+   const list=matches.filter(e=>Array.isArray(e.shifts)&&e.shifts.includes(shift));
+   return `<div class="employee-shift-group"><h3>${labels[shift]} <span class="muted">(${list.length})</span></h3>${list.length?list.map(e=>`<div class="employee"><div><div class="code">${esc(e.code)}</div><div class="name">${esc(e.name)}</div><small>${e.active?"Active":"Inactive"}</small></div><div class="actions"><button class="light" onclick="openEmployeeForm('${esc(e.code)}')">Edit</button><button class="${e.active?"danger":"success"}" onclick="toggleEmployee('${esc(e.code)}')">${e.active?"Deactivate":"Activate"}</button></div></div>`).join(""):"<div class='empty'>No employees assigned to this shift.</div>"}</div>`;
+ }).join("");
 }
 function toggleImport(){$("importBox").classList.toggle("hidden")}
 function bulkImport(){
@@ -282,7 +288,8 @@ function bulkImport(){
    if(!m)continue;
    const code=m[1].trim().toUpperCase(),name=m[2].trim();if(!code||!name)continue;
    const old=state.employees.find(e=>e.code===code);
-   if(old){old.name=name;old.active=true;updated++}else{state.employees.push({code,name,active:true});added++}
+   if(old){old.name=name;old.active=true;if(!Array.isArray(old.shifts))old.shifts=[];if(!old.shifts.includes($("empShift").value))old.shifts.push($("empShift").value);updated++}
+   else{state.employees.push({code,name,active:true,shifts:[$("empShift").value],createdAt:today()});added++}
  }
  save();renderEmployees();alert(`Imported: ${added} new, ${updated} updated.`);
 }
