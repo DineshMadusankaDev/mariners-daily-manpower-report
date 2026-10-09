@@ -417,17 +417,24 @@ function printReport(){
  const shifts=["06:30 - 18:30","14:30 - 02:30"];
  const makeShiftTable=shift=>{
    const d=state.days[date+"|"+shift]||{tbm:"01",categories:{},leave:[],absent:[],shift};
-   const assigned=assignedCodes(d),absent=new Set(d.absent||[]);
-   const selected=employeesForShift(shift).filter(e=>assigned.has(e.code)||absent.has(e.code)).sort((a,b)=>a.code.localeCompare(b.code,undefined,{numeric:true}));
-   const presentCount=selected.filter(e=>assigned.has(e.code)).length,absentCount=selected.length-presentCount;
-   const rows=selected.map(e=>{const present=assigned.has(e.code);return '<tr><td class="status '+(present?"present":"absent")+'">'+(present?"✔":"❌")+'</td><td class="code">'+esc(e.code)+'</td><td class="name">'+esc(e.name)+'</td></tr>'}).join("");
-   return '<section class="print-shift"><div class="print-shift-title">'+esc(shift)+' Shift <span>Present: '+presentCount+' &nbsp; | &nbsp; Absent: '+absentCount+'</span></div><table class="print-table"><thead><tr><th style="width:30px">STATUS</th><th style="width:46px">CODE</th><th>NAME</th></tr></thead><tbody>'+rows+'</tbody></table>'+(selected.length?"":'<div class="print-empty">No attendance recorded for this shift.</div>')+'</section>';
+   const assigned=assignedCodes(d),leave=new Set(d.leave||[]),absent=new Set(d.absent||[]);
+   const selected=employeesForShift(shift).filter(e=>assigned.has(e.code)||leave.has(e.code)||absent.has(e.code)).sort((a,b)=>a.code.localeCompare(b.code,undefined,{numeric:true}));
+   const statusFor=e=>assigned.has(e.code)?"present":leave.has(e.code)?"leave":absent.has(e.code)?"absent":"absent";
+   const counts={present:0,leave:0,absent:0};
+   selected.forEach(e=>counts[statusFor(e)]++);
+   const rows=selected.map(e=>{
+     const status=statusFor(e);
+     const mark=status==="present"?"✔":status==="leave"?"🟡":"❌";
+     const label=status==="present"?"Present":status==="leave"?"Leave":"Absent";
+     return '<tr><td class="status '+status+'">'+mark+' '+label+'</td><td class="code">'+esc(e.code)+'</td><td class="name">'+esc(e.name)+'</td></tr>';
+   }).join("");
+   return '<section class="print-shift"><div class="print-shift-title">'+esc(shift)+' Shift <span>Present: '+counts.present+' &nbsp; | &nbsp; Leave: '+counts.leave+' &nbsp; | &nbsp; Absent: '+counts.absent+'</span></div><table class="print-table"><thead><tr><th style="width:70px">STATUS</th><th style="width:46px">CODE</th><th>NAME</th></tr></thead><tbody>'+rows+'</tbody></table>'+(selected.length?"":'<div class="print-empty">No attendance recorded for this shift.</div>')+'</section>';
  };
  $("printSheet").innerHTML=
    '<div class="print-header"><div class="project">Habarana – Palugaswewa Tunnel Project</div><div class="title">Daily Attendance Sheet</div><div class="meta">Date: '+esc(niceDate(date))+' &nbsp; | &nbsp; TBM: 01</div></div>'+
    '<div class="print-summary"><span>🌅 Morning Shift: 06:30–18:30</span><span>🌤 Afternoon Shift: 14:30–02:30</span></div>'+
    '<div class="print-two-shifts">'+shifts.map(makeShiftTable).join("")+'</div>'+
-   '<div class="print-footer"><div><div class="print-legend"><span style="color:#16803c">✔</span> Present &nbsp;&nbsp; <span style="color:#b42318">❌</span> Absent</div><div class="print-note">Each shift is listed separately. Only selected employees are included.</div></div><div class="print-sign"><div class="line"></div><b>'+esc($("rBy").value.trim()||"B G D Madhusankha")+'</b><br>'+esc($("rRole").value.trim()||"Task Supervisor")+'</div></div>';
+   '<div class="print-footer"><div><div class="print-legend"><span style="color:#16803c">✔ Present</span> &nbsp;&nbsp; <span style="color:#b45309">🟡 Leave</span> &nbsp;&nbsp; <span style="color:#b42318">❌ Absent</span></div><div class="print-note">Each shift is listed separately. Present, Leave and Absent employees are included.</div></div><div class="print-sign"><div class="line"></div><b>'+esc($("rBy").value.trim()||"B G D Madhusankha")+'</b><br>'+esc($("rRole").value.trim()||"Task Supervisor")+'</div></div>';
  window.print();
 }
 function exportBackup(){
