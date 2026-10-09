@@ -44,6 +44,10 @@ h2{font-size:16px;margin:0 0 12px}.muted{color:#6b7280;font-size:12px}.statgrid{
   .print-header .meta{font-size:9px;margin-top:5px}
   .print-summary{display:flex;justify-content:center;gap:22px;margin:7px 0 9px;font-size:9px;font-weight:700}
   .print-summary .present{color:#16803c}.print-summary .absent{color:#b42318}
+  .print-two-shifts{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:start}
+  .print-shift-title{font-size:10px;font-weight:800;background:#e5e7eb;border:1px solid #6b7280;padding:5px;margin-bottom:4px}
+  .print-shift-title span{float:right;font-size:8px}
+  .print-empty{border:1px dashed #9ca3af;padding:12px;text-align:center;font-size:9px;color:#6b7280}
   .print-columns{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:start}
   .print-table{width:100%;border-collapse:collapse;table-layout:fixed}
   .print-table th,.print-table td{border:1px solid #3f3f46;padding:4px 5px;line-height:1.15}
@@ -402,27 +406,21 @@ function generateReport(){
 async function copyReport(){const t=generateReport();try{await navigator.clipboard.writeText(t)}catch(e){const ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove()}alert("Report copied.")}
 function shareWhatsApp(){const t=generateReport(),u="https://api.whatsapp.com/send?text="+encodeURIComponent(t);location.href=u}
 function printReport(){
- const d=currentReportDay(),date=$("rDate").value||today(),shift=$("rShift").value;
- const assigned=assignedCodes(d),absent=new Set(d.absent||[]);
- const selected=employeesForShift(shift).filter(e=>assigned.has(e.code)||absent.has(e.code)).sort((a,b)=>a.code.localeCompare(b.code,undefined,{numeric:true}));
- const statusFor=code=>assigned.has(code)?{icon:"✔",cls:"present",label:"Present"}:{icon:"❌",cls:"absent",label:"Not present"};
- const mid=Math.ceil(selected.length/2),left=selected.slice(0,mid),right=selected.slice(mid);
- const presentCount=selected.filter(e=>assigned.has(e.code)).length;
- const absentCount=selected.length-presentCount;
- const row=e=>{const s=statusFor(e.code);return '<tr><td class="status '+s.cls+'" aria-label="'+s.label+'">'+s.icon+'</td><td class="code">'+esc(e.code)+'</td><td class="name">'+esc(e.name)+'</td></tr>'};
- const table=list=>'<table class="print-table"><thead><tr><th style="width:34px">STATUS</th><th style="width:50px">CODE</th><th>NAME</th></tr></thead><tbody>'+list.map(row).join("")+'</tbody></table>';
+ const date=$("rDate").value||today();
+ const shifts=["06:30 - 18:30","14:30 - 02:30"];
+ const makeShiftTable=shift=>{
+   const d=state.days[date+"|"+shift]||{tbm:"01",categories:{},leave:[],absent:[],shift};
+   const assigned=assignedCodes(d),absent=new Set(d.absent||[]);
+   const selected=employeesForShift(shift).filter(e=>assigned.has(e.code)||absent.has(e.code)).sort((a,b)=>a.code.localeCompare(b.code,undefined,{numeric:true}));
+   const presentCount=selected.filter(e=>assigned.has(e.code)).length,absentCount=selected.length-presentCount;
+   const rows=selected.map(e=>{const present=assigned.has(e.code);return '<tr><td class="status '+(present?"present":"absent")+'">'+(present?"✔":"❌")+'</td><td class="code">'+esc(e.code)+'</td><td class="name">'+esc(e.name)+'</td></tr>'}).join("");
+   return '<section class="print-shift"><div class="print-shift-title">'+esc(shift)+' Shift <span>Present: '+presentCount+' &nbsp; | &nbsp; Absent: '+absentCount+'</span></div><table class="print-table"><thead><tr><th style="width:30px">STATUS</th><th style="width:46px">CODE</th><th>NAME</th></tr></thead><tbody>'+rows+'</tbody></table>'+(selected.length?"":'<div class="print-empty">No attendance recorded for this shift.</div>')+'</section>';
+ };
  $("printSheet").innerHTML=
-   '<div class="print-header">'+
-     '<div class="project">Habarana – Palugaswewa Tunnel Project</div>'+
-     '<div class="title">Daily Attendance Sheet</div>'+
-     '<div class="meta">Date: '+esc(niceDate(date))+' &nbsp; | &nbsp; Shift: '+esc(shift)+' &nbsp; | &nbsp; TBM: '+esc(d.tbm||"01")+'</div>'+
-   '</div>'+
-   '<div class="print-summary"><span>Selected: '+selected.length+'</span><span class="present">✔ Present: '+presentCount+'</span><span class="absent">❌ Not present: '+absentCount+'</span></div>'+
-   '<div class="print-columns"><div>'+table(left)+'</div><div>'+table(right)+'</div></div>'+
-   '<div class="print-footer">'+
-     '<div><div class="print-legend"><span style="color:#16803c">✔</span> Present &nbsp;&nbsp; <span style="color:#b42318">❌</span> Not present</div><div class="print-note">Attendance recorded from the shift attendance sheet. Only selected employees are included.</div></div>'+
-     '<div class="print-sign"><div class="line"></div><b>B G D Madhusankha</b><br>Task Supervisor</div>'+
-   '</div>';
+   '<div class="print-header"><div class="project">Habarana – Palugaswewa Tunnel Project</div><div class="title">Daily Attendance Sheet</div><div class="meta">Date: '+esc(niceDate(date))+' &nbsp; | &nbsp; TBM: 01</div></div>'+
+   '<div class="print-summary"><span>🌅 Morning Shift: 06:30–18:30</span><span>🌤 Afternoon Shift: 14:30–02:30</span></div>'+
+   '<div class="print-two-shifts">'+shifts.map(makeShiftTable).join("")+'</div>'+
+   '<div class="print-footer"><div><div class="print-legend"><span style="color:#16803c">✔</span> Present &nbsp;&nbsp; <span style="color:#b42318">❌</span> Absent</div><div class="print-note">Each shift is listed separately. Only selected employees are included.</div></div><div class="print-sign"><div class="line"></div><b>'+esc($("rBy").value.trim()||"B G D Madhusankha")+'</b><br>'+esc($("rRole").value.trim()||"Task Supervisor")+'</div></div>';
  window.print();
 }
 function exportBackup(){
