@@ -18,7 +18,7 @@ button{border:0;border-radius:10px;padding:11px 13px;font-size:14px;font-weight:
 h2{font-size:16px;margin:0 0 12px}.muted{color:#6b7280;font-size:12px}.statgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.stat{background:#f8fafc;border-radius:10px;padding:10px;text-align:center}.stat b{display:block;font-size:20px}.stat span{font-size:11px;color:#64748b}
 .dash-title-row,.section-title-row{display:flex;align-items:center;justify-content:space-between;gap:10px}.dash-title-row h2{font-size:18px;margin:0 0 3px}.dash-title-row button{padding:8px 10px;font-size:12px}
 .dash-statgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}.dash-stat{background:#f8fafc;border:1px solid #e5e7eb;border-radius:13px;padding:12px;text-align:center}.dash-stat span{display:block;font-size:11px;color:#475569;font-weight:700}.dash-stat b{display:block;font-size:25px;margin:3px 0}.dash-stat small{color:#64748b;font-size:10px}.dash-stat.present{background:#f0fdf4;border-color:#bbf7d0}.dash-stat.present b{color:#15803d}.dash-stat.leave{background:#fffbeb;border-color:#fde68a}.dash-stat.leave b{color:#b45309}.dash-stat.absent{background:#fef2f2;border-color:#fecaca}.dash-stat.absent b{color:#b91c1c}
-.shift-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.shift-card{border:1px solid #e5e7eb;border-radius:13px;padding:12px;background:#fff}.shift-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:9px}.shift-name{font-weight:800;font-size:13px}.shift-status{font-size:10px;font-weight:800;padding:5px 8px;border-radius:999px;background:#fef3c7;color:#92400e}.shift-status.saved{background:#dcfce7;color:#166534}.shift-status.empty{background:#f1f5f9;color:#64748b}.shift-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}.shift-metric{background:#f8fafc;border-radius:9px;padding:7px;text-align:center}.shift-metric b{display:block;font-size:16px}.shift-metric span{font-size:9px;color:#64748b}.shift-open{margin-top:9px;width:100%;padding:8px;font-size:11px}
+.shift-switch{display:grid;grid-template-columns:1fr 1fr;gap:6px}.shift-switch button{background:#f1f5f9;color:#334155;border:1px solid #e2e8f0;padding:10px 7px;font-size:11px}.shift-switch button.active{background:#111827;color:#fff;border-color:#111827}.shift-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.shift-card{border:1px solid #e5e7eb;border-radius:13px;padding:12px;background:#fff}.shift-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:9px}.shift-name{font-weight:800;font-size:13px}.shift-status{font-size:10px;font-weight:800;padding:5px 8px;border-radius:999px;background:#fef3c7;color:#92400e}.shift-status.saved{background:#dcfce7;color:#166534}.shift-status.empty{background:#f1f5f9;color:#64748b}.shift-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}.shift-metric{background:#f8fafc;border-radius:9px;padding:7px;text-align:center}.shift-metric b{display:block;font-size:16px}.shift-metric span{font-size:9px;color:#64748b}.shift-open{margin-top:9px;width:100%;padding:8px;font-size:11px}
 .history-row{display:grid;grid-template-columns:1.2fr 1fr repeat(3,.55fr) .8fr;gap:5px;align-items:center;padding:9px 4px;border-bottom:1px solid #f1f5f9;font-size:11px}.history-row.head{font-weight:800;color:#64748b;font-size:9px;text-transform:uppercase}.history-row:last-child{border-bottom:0}.history-row .num{text-align:center;font-weight:800}.history-row .status-pill{font-size:9px;font-weight:800;text-align:center;padding:4px;border-radius:999px;background:#dcfce7;color:#166534}.history-row .status-pill.pending{background:#fef3c7;color:#92400e}
 .trend-row{display:grid;grid-template-columns:62px 1fr 28px;gap:8px;align-items:center;margin:8px 0}.trend-date{font-size:10px;font-weight:700;color:#475569}.trend-bar{height:13px;background:#f1f5f9;border-radius:999px;overflow:hidden;display:flex}.trend-bar span{height:100%}.trend-present{background:#22c55e}.trend-leave{background:#f59e0b}.trend-absent{background:#ef4444}.trend-total{font-size:10px;font-weight:800;text-align:right}
 .change-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.change-box{background:#f8fafc;border-radius:12px;padding:12px;text-align:center}.change-box b{display:block;font-size:22px}.change-box span{display:block;color:#64748b;font-size:10px;margin-top:3px}.last-saved{background:#f8fafc;border-radius:12px;padding:12px}.last-saved .big{font-weight:800;font-size:14px}.last-saved .meta{color:#64748b;font-size:11px;margin-top:4px}.empty-dash{padding:16px;text-align:center;color:#64748b;border:1px dashed #cbd5e1;border-radius:11px;font-size:12px}
@@ -143,7 +143,7 @@ h2{font-size:16px;margin:0 0 12px}.muted{color:#6b7280;font-size:12px}.statgrid{
 <section id="attendance" class="tab hidden">
 <div class="card"><h2>Daily Attendance</h2><div class="row">
 <div class="field"><label>Date</label><input id="aDate" type="date" onchange="loadDay()"></div>
-<div class="field"><label>Shift</label><select id="aShift" onchange="loadDay()"><option>06:30 - 18:30</option><option>14:30 - 02:30</option><option>18:30 - 07:30</option><option>22:30 - 10:30</option></select></div>
+<div class="field"><label>Shift</label><div id="shiftSwitch" class="shift-switch"><button type="button" data-shift="06:30 - 18:30" onclick="switchAttendanceShift(this.dataset.shift)">🌅 Morning 06:30</button><button type="button" data-shift="14:30 - 02:30" onclick="switchAttendanceShift(this.dataset.shift)">🌤 Afternoon 14:30</button><button type="button" data-shift="18:30 - 07:30" onclick="switchAttendanceShift(this.dataset.shift)">🌙 Night 18:30</button><button type="button" data-shift="22:30 - 10:30" onclick="switchAttendanceShift(this.dataset.shift)">🌙 Night 22:30</button></div><select id="aShift" onchange="loadDay()" class="hidden"><option>06:30 - 18:30</option><option>14:30 - 02:30</option><option>18:30 - 07:30</option><option>22:30 - 10:30</option></select></div>
 </div><div class="row">
 <div class="field"><label>TBM</label><input id="aTbm" value="01" oninput="saveDay()"></div>
 <div class="field"><label>Search employee</label><input id="aSearch" oninput="searchAttendance()" placeholder="Code or name"></div>
@@ -172,9 +172,11 @@ h2{font-size:16px;margin:0 0 12px}.muted{color:#6b7280;font-size:12px}.statgrid{
 <script>
 const $=id=>document.getElementById(id);
 const KEY="manpowerSystemV1";
-const DEFAULT_EMPLOYEES=[["M470","W.M.M.M.Warnasooriya"],["M473","R.A.N.J.Ranasingha"],["M474","B.S.L.Prasanna"],["M590","R.A.S.R.Rathnayake"],["M47","H.G.S.N.Jayathilaka"],["M287","A.W.C.K.Kumara"],["M336","S.Wimalarathna"],["M375","A.R.S.Senavirathna"],["M388","D.M.C.L.Sampath"],["M394","K.R.Kumara"],["M458","U.H.K.I.Kumarasingha"],["M460","A.G.L.V.Kumara"],["M491","R.D.K.Wickramasingha"],["M495","M.M.D.S.Herath"],["M496","L.G.R.S.Liyanage"],["M503","A.A.M.Amarasingha"],["M509","W.M.S.A.Rupasingha"],["M513","W.M.K.P.Warnasooriya"],["M514","S.G.Rupasingha"],["M548","A.S.B.P.W.M.R.P.Bandara"],["M549","W.M.M.J.Podiputha"],["M553","J.M.S.M.Rajapaksha"],["M591","W.I.V.N.Wickramasekara"],["M592","E.M.K.Bandara"],["M593","Chndrarathna"],["M594","A.D.C.D.Pemarathna"],["M595","N.S.K.Nandasena"],["M632","A.R.S.I.Kumara"],["M633","L.G.G.P.Dasanayaka"],["M639","K.D.M.S.Samaraveera"],["M671","D.S.S.Dissanayake"],["M672","A.W.K.Herath"],["M688","G.A.N.S.Wickramasingha"],["M689","W.M.C.R.Kumara"],["M691","N.N.Wijerathna"],["M696","S.J.Weerakon"],["M697","R.J.M.S.Jayawickrama"],["M743","RMKD Rathnayaka"],["M740","TU Karunathilaka"],["M738","PMS Sandeepa"],["M739","KJGS Jayasiri"],["M742","WMKI Wijerathna"],["M741","SP Buddika"],["M212","Priyantha 小工长"],["M76","DMWDissanayaka"],["M184","S.S.Maddvgpda"],["M297","A.G.V.C.Kumara"],["M298","P.R.V.C.Rajapaksha"],["M301","P.W.Saranga"],["M305","A.M.I.Bandara"],["M311","dinesh manjula piyarathna"],["M381","R.K.T.D.Kumara"],["M396","P.G.M.R.Herath"],["M398","K.D.L.Sampath"],["M400","H.M.A.P.Gunapala"],["M401","A.Lahiru"],["M407","D.M.P.N.Dissanayaka"],["M409","K.K.K.S.G.Kalpage"],["M412","D.M.G.Munidasa"],["M414","S.W.G.S. Kumara"],["M427","G.I.G.Kumara"],["M461","N.D.C.G.Wijewardana"],["M462","W.D.V.Wijesiri"],["M481","W.A.P.Lakshan"],["M487","K.M.S.D.Darmasiri"],["M490","P.G.J.K.Herath"],["M494","H.M.S.Karunarathna"],["M511","K.G.G.Samarawickrama"],["M515","J.D.K.S.Jayathilaka"],["M516","U.N.Premachandra"],["M518","R.M.S.D.Rathnayaka"],["M542","D.M.E.Dissanayake"],["M545","K.M.I.Lakshitha"],["M555","P.G.I.S.Dasanayaka"],["M556","D.M.R.P.H.Dissanayake"],["M557","P.G.H.M.S.K.Herath"],["M559","E.M.M.K.Thilakarathna"],["M563","T.L.D.Bandara"],["M564","S.S.M.Budhawatte"],["M565","R.K.A.Kumra"],["M610","K.U.J.S.De silva"],["M692","B.V.P.Dananjaya"],["M693","M.P.S.C.Kumara"],["M694","H.G.M.Hasakelum"]].map(([code,name])=>({code,name,active:true}));
+const DEFAULT_EMPLOYEES=[{"code":"M47","name":"H.G.S.N. Jayathilaka","active":true,"shifts":["06:30 - 18:30"]},{"code":"M287","name":"A.W.C.K. Kumara","active":true,"shifts":["06:30 - 18:30"]},{"code":"M336","name":"S. Wimalarathna","active":true,"shifts":["06:30 - 18:30"]},{"code":"M375","name":"A.R.S. Senavirathna","active":true,"shifts":["06:30 - 18:30"]},{"code":"M388","name":"D.M.C.L. Sampath","active":true,"shifts":["06:30 - 18:30"]},{"code":"M394","name":"K.R. Kumara","active":true,"shifts":["06:30 - 18:30"]},{"code":"M458","name":"U.H.K.I. Kumarasingha","active":true,"shifts":["06:30 - 18:30"]},{"code":"M460","name":"A.G.L.V. Kumara","active":true,"shifts":["06:30 - 18:30"]},{"code":"M470","name":"W.M.M.M Warnasooriya","active":true,"shifts":["06:30 - 18:30"]},{"code":"M473","name":"R.A.N.J Ranasingha","active":true,"shifts":["06:30 - 18:30"]},{"code":"M474","name":"B.S.L Prasanna","active":true,"shifts":["06:30 - 18:30"]},{"code":"M491","name":"R.D.K. Wickramasingha","active":true,"shifts":["06:30 - 18:30"]},{"code":"M495","name":"M.M.D.S. Herath","active":true,"shifts":["06:30 - 18:30","14:30 - 02:30"]},{"code":"M496","name":"L.G.R.S. Liyanage","active":true,"shifts":["06:30 - 18:30"]},{"code":"M503","name":"A.A.M. Amarasingha","active":true,"shifts":["06:30 - 18:30"]},{"code":"M509","name":"W.M.S.A. Rupasingha","active":true,"shifts":["06:30 - 18:30"]},{"code":"M513","name":"W.M.K.P. Warnasooriya","active":true,"shifts":["06:30 - 18:30"]},{"code":"M514","name":"S.G. Rupasingha","active":true,"shifts":["06:30 - 18:30"]},{"code":"M548","name":"A.S.B.P.W.M.R.P. Bandara","active":true,"shifts":["06:30 - 18:30"]},{"code":"M549","name":"W.M.M.J. Podiputha","active":true,"shifts":["06:30 - 18:30"]},{"code":"M553","name":"J.M.S.M. Rajapaksha","active":true,"shifts":["06:30 - 18:30"]},{"code":"M590","name":"R.A.S.R Rathnayake","active":true,"shifts":["06:30 - 18:30"]},{"code":"M591","name":"W.I.V.N. Wickramasekara","active":true,"shifts":["06:30 - 18:30"]},{"code":"M592","name":"E.M.K. Bandara","active":true,"shifts":["06:30 - 18:30"]},{"code":"M593","name":"Name not listed","active":true,"shifts":["06:30 - 18:30"]},{"code":"M594","name":"A.D.C.D. Pemarathna","active":true,"shifts":["06:30 - 18:30"]},{"code":"M595","name":"N.S.K. Nandasena","active":true,"shifts":["06:30 - 18:30"]},{"code":"M632","name":"A.R.S.I. Kumara","active":true,"shifts":["06:30 - 18:30"]},{"code":"M633","name":"L.G.G.P. Dasanayaka","active":true,"shifts":["06:30 - 18:30"]},{"code":"M639","name":"K.D.M.S. Samaraweera","active":true,"shifts":["06:30 - 18:30"]},{"code":"M671","name":"D.S.S. Dissanayake","active":true,"shifts":["06:30 - 18:30"]},{"code":"M672","name":"A.W.K. Herath","active":true,"shifts":["06:30 - 18:30"]},{"code":"M688","name":"G.A.N.S. Wickramasingha","active":true,"shifts":["06:30 - 18:30"]},{"code":"M689","name":"W.M.C.R. Kumara","active":true,"shifts":["06:30 - 18:30"]},{"code":"M691","name":"N.N. Wijerathna","active":true,"shifts":["06:30 - 18:30"]},{"code":"M696","name":"S.J. Weerakon","active":true,"shifts":["06:30 - 18:30"]},{"code":"M697","name":"R.J.M.S. Jayawickrama","active":true,"shifts":["06:30 - 18:30"]},{"code":"M743","name":"R.M.K.D. Rathnayaka","active":true,"shifts":["06:30 - 18:30"]},{"code":"M740","name":"T.U. Karunathilaka","active":true,"shifts":["06:30 - 18:30"]},{"code":"M738","name":"P.M.S. Sandeepa","active":true,"shifts":["06:30 - 18:30"]},{"code":"M739","name":"K.J.G.S. Jayasiri","active":true,"shifts":["06:30 - 18:30"]},{"code":"M742","name":"W.M.K.I. Wijerathna","active":true,"shifts":["06:30 - 18:30"]},{"code":"M741","name":"S.P. Buddhika","active":true,"shifts":["06:30 - 18:30"]},{"code":"M212","name":"Priyantha","active":true,"shifts":["14:30 - 02:30"]},{"code":"M76","name":"DMW Dissanayaka","active":true,"shifts":["14:30 - 02:30"]},{"code":"M184","name":"S.S. Maddvgpda","active":true,"shifts":["14:30 - 02:30"]},{"code":"M297","name":"A.G.V.C. Kumara","active":true,"shifts":["14:30 - 02:30"]},{"code":"M298","name":"P.R.V.C. Rajapaksha","active":true,"shifts":["14:30 - 02:30"]},{"code":"M301","name":"P.W. Saranga","active":true,"shifts":["14:30 - 02:30"]},{"code":"M305","name":"A.M.I. Bandara","active":true,"shifts":["14:30 - 02:30"]},{"code":"M311","name":"Dinesh Manjula Piyarathna","active":true,"shifts":["14:30 - 02:30"]},{"code":"M381","name":"R.K.T.D. Kumara","active":true,"shifts":["14:30 - 02:30"]},{"code":"M396","name":"P.G.M.R. Herath","active":true,"shifts":["14:30 - 02:30"]},{"code":"M398","name":"K.D.L. Sampath","active":true,"shifts":["14:30 - 02:30"]},{"code":"M400","name":"H.M.A.P. Gunapala","active":true,"shifts":["14:30 - 02:30"]},{"code":"M401","name":"A. Lahiru","active":true,"shifts":["14:30 - 02:30"]},{"code":"M407","name":"D.M.P.N. Dissanayaka","active":true,"shifts":["14:30 - 02:30"]},{"code":"M409","name":"K.K.K.S.G. Kalpage","active":true,"shifts":["14:30 - 02:30"]},{"code":"M412","name":"D.M.G. Munidasa","active":true,"shifts":["14:30 - 02:30"]},{"code":"M414","name":"S.W.G.S. Kumara","active":true,"shifts":["14:30 - 02:30"]},{"code":"M427","name":"G.I.G. Kumara","active":true,"shifts":["14:30 - 02:30"]},{"code":"M461","name":"N.D.C.G. Wijewardana","active":true,"shifts":["14:30 - 02:30"]},{"code":"M462","name":"W.D.V. Wijesiri","active":true,"shifts":["14:30 - 02:30"]},{"code":"M481","name":"W.A.P. Lakshan","active":true,"shifts":["14:30 - 02:30"]},{"code":"M487","name":"K.M.S.D. Darmasiri","active":true,"shifts":["14:30 - 02:30"]},{"code":"M490","name":"P.G.I.K. Herath","active":true,"shifts":["14:30 - 02:30"]},{"code":"M494","name":"H.M.S. Karunarathna","active":true,"shifts":["14:30 - 02:30"]},{"code":"M511","name":"K.G.G. Samarawickrama","active":true,"shifts":["14:30 - 02:30"]},{"code":"M515","name":"J.D.K.S. Jayathilaka","active":true,"shifts":["14:30 - 02:30"]},{"code":"M516","name":"U.N. Premachandra","active":true,"shifts":["14:30 - 02:30"]},{"code":"M518","name":"R.M.S.D. Rathnayaka","active":true,"shifts":["14:30 - 02:30"]},{"code":"M542","name":"D.M.E. Dissanayake","active":true,"shifts":["14:30 - 02:30"]},{"code":"M545","name":"K.M.I. Lakshitha","active":true,"shifts":["14:30 - 02:30"]},{"code":"M555","name":"P.G.I.S. Dasanayaka","active":true,"shifts":["14:30 - 02:30"]},{"code":"M556","name":"D.M.R.P.H. Dissanayake","active":true,"shifts":["14:30 - 02:30"]},{"code":"M557","name":"P.G.H.M.S.K. Herath","active":true,"shifts":["14:30 - 02:30"]},{"code":"M559","name":"E.M.M.K. Thilakarathna","active":true,"shifts":["14:30 - 02:30"]},{"code":"M563","name":"T.L.D. Bandara","active":true,"shifts":["14:30 - 02:30"]},{"code":"M564","name":"S.S.M. Budhawatte","active":true,"shifts":["14:30 - 02:30"]},{"code":"M565","name":"R.K.A. Kumra","active":true,"shifts":["14:30 - 02:30"]},{"code":"M610","name":"K.U.J.S. De Silva","active":true,"shifts":["14:30 - 02:30"]},{"code":"M692","name":"B.V.P. Dananjaya","active":true,"shifts":["14:30 - 02:30"]},{"code":"M693","name":"M.P.S.C. Kumara","active":true,"shifts":["14:30 - 02:30"]},{"code":"M694","name":"H.G.M. Hasakelum","active":true,"shifts":["14:30 - 02:30"]}];
 const CATEGORIES=["Underground Hooker","Onground Hooker","TBM Worker","Welder","Safety Officer","Locomotive Driver","Locomotive Signalman","Gantry Crane Operator","Gantry Crane Rigger","Forklift Driver","Mechanic","Filter","Cleaner","Other"];
 const SHIFTS=["06:30 - 18:30","14:30 - 02:30","18:30 - 07:30","22:30 - 10:30"];
+const MASTER_VERSION=2;
+function employeesForShift(shift){return activeEmployees().filter(e=>Array.isArray(e.shifts)&&e.shifts.includes(shift))}
 let state={employees:[],days:{},editingCode:null};
 let openCategories=new Set();
 
@@ -186,11 +188,21 @@ function save(){localStorage.setItem(KEY,JSON.stringify(state));refreshDashboard
 function load(){
   try{
     let s=JSON.parse(localStorage.getItem(KEY));
-    if(s&&Array.isArray(s.employees)&&s.employees.length) state=s;
-    else state={employees:DEFAULT_EMPLOYEES.map(e=>({...e})),days:{},editingCode:null};
+    if(s&&Array.isArray(s.employees)&&s.employees.length){
+      state=s;
+      if(state.masterVersion!==MASTER_VERSION){
+        state.employees=DEFAULT_EMPLOYEES.map(e=>({...e,shifts:[...e.shifts]}));
+        state.masterVersion=MASTER_VERSION;
+      }else{
+        state.employees.forEach(e=>{if(!Array.isArray(e.shifts))e.shifts=[]});
+      }
+      if(!state.days)state.days={};
+    }else state={employees:DEFAULT_EMPLOYEES.map(e=>({...e,shifts:[...e.shifts]})),days:{},editingCode:null,masterVersion:MASTER_VERSION};
   }catch(e){
-    state={employees:DEFAULT_EMPLOYEES.map(e=>({...e})),days:{},editingCode:null};
+    state={employees:DEFAULT_EMPLOYEES.map(e=>({...e,shifts:[...e.shifts]})),days:{},editingCode:null,masterVersion:MASTER_VERSION};
   }
+  state.masterVersion=MASTER_VERSION;
+  localStorage.setItem(KEY,JSON.stringify(state));
 }
 function showTab(tab){
  document.querySelectorAll(".tab").forEach(x=>x.classList.add("hidden"));
@@ -231,6 +243,8 @@ function refreshDashboard(){
  $("lastSaved").innerHTML=saved?(()=>{const [dt,sh]=saved.key.split("|");const x=recordStats(saved.d);return '<div class="big">'+esc(dt)+' • '+esc(sh)+'</div><div class="meta">Present '+x.present+' • Leave '+x.leave+' • Absent '+x.absent+' • Saved '+new Date(saved.d.savedAt).toLocaleString("en-GB")+'</div>'})():'<div class="empty-dash">No attendance has been explicitly saved yet.</div>';
 }
 function activeEmployees(){return state.employees.filter(e=>e.active)}
+function attendanceEmployees(){return employeesForShift($("aShift").value)}
+function switchAttendanceShift(shift){$("aShift").value=shift;openCategories.clear();$("aSearch").value="";loadDay();}
 function openEmployeeForm(code=null){
  state.editingCode=code;
  $("employeeForm").classList.remove("hidden");
@@ -244,7 +258,7 @@ function saveEmployee(){
  const code=$("empCode").value.trim().toUpperCase(),name=$("empName").value.trim();
  if(!code||!name)return alert("Enter employee code and name.");
  if(state.editingCode){const e=state.employees.find(x=>x.code===state.editingCode);if(e)e.name=name}
- else {if(state.employees.some(e=>e.code===code))return alert("This code already exists.");state.employees.push({code,name,active:true,createdAt:today()})}
+ else {if(state.employees.some(e=>e.code===code))return alert("This code already exists.");state.employees.push({code,name,active:true,shifts:[$("aShift").value],createdAt:today()})}
  save();closeEmployeeForm();renderEmployees();
 }
 function toggleEmployee(code){
@@ -269,27 +283,29 @@ function bulkImport(){
  save();renderEmployees();alert(`Imported: ${added} new, ${updated} updated.`);
 }
 function dayKey(){return ($("aDate").value||today())+"|"+$("aShift").value}
-function blankDay(){return {tbm:"01",categories:{},leave:[],absent:[]}}
-function getDay(){const k=dayKey();if(!state.days[k])state.days[k]=blankDay();return state.days[k]}
+function blankDay(){return {tbm:"01",categories:{},leave:[],absent:[],shift:$("aShift").value}}
+function getDay(){const k=dayKey();if(!state.days[k])state.days[k]=blankDay();state.days[k].shift=$("aShift").value;return state.days[k]}
 function loadDay(){
  if(!$("aDate").value)$("aDate").value=today();
  const d=getDay();$("aTbm").value=d.tbm||"01";renderAttendance();
+ $("shiftSwitch").querySelectorAll("button").forEach(b=>b.classList.toggle("active",b.dataset.shift===$("aShift").value));
 }
 function saveDay(){const d=getDay();d.tbm=$("aTbm").value.trim();state.days[dayKey()]=d;save()}
 function assignedCodes(d){const set=new Set();Object.values(d.categories||{}).forEach(arr=>arr.forEach(c=>set.add(c)));return set}
 function calcDay(d){
- const active=activeEmployees(),assigned=assignedCodes(d),leave=new Set(d.leave||[]),absent=new Set(d.absent||[]);
- let present=assigned.size;
- return {total:active.length,present,leave:[...leave].filter(c=>active.some(e=>e.code===c)).length,absent:[...absent].filter(c=>active.some(e=>e.code===c)).length};
+ const shift=d?.shift||$("aShift").value;
+ const active=employeesForShift(shift),assigned=assignedCodes(d),leave=new Set(d.leave||[]),absent=new Set(d.absent||[]);
+ const present=[...assigned].filter(code=>active.some(e=>e.code===code)).length;
+ return {total:active.length,present,leave:[...leave].filter(code=>active.some(e=>e.code===code)).length,absent:[...absent].filter(code=>active.some(e=>e.code===code)).length};
 }
 function renderAttendance(){
- const d=getDay(),q=($("aSearch").value||"").trim().toLowerCase(),assigned=assignedCodes(d);
+ const d=getDay(),q=($("aSearch").value||"").trim().toLowerCase(),assigned=assignedCodes(d),shiftEmployees=attendanceEmployees();
  $("categories").innerHTML=CATEGORIES.map(cat=>{
    const selected=(d.categories[cat]||[]);
    const isOpen=openCategories.has(cat);
    let body="";
    if(isOpen){
-     const available=activeEmployees().filter(e=>(!q||e.code.toLowerCase().includes(q)||e.name.toLowerCase().includes(q))&&(assigned.has(e.code)?selected.includes(e.code):true));
+     const available=shiftEmployees.filter(e=>(!q||e.code.toLowerCase().includes(q)||e.name.toLowerCase().includes(q))&&(assigned.has(e.code)?selected.includes(e.code):true));
      const rows=available.length?available.map(e=>`<div class="listline"><span><b>${esc(e.code)}</b> — ${esc(e.name)}</span><button class="${selected.includes(e.code)?"success":"light"}" onclick="toggleCategory('${esc(cat)}','${esc(e.code)}')">${selected.includes(e.code)?"Selected":"Add"}</button></div>`).join(""):`<div class="muted" style="padding:10px 0">No matching employees.</div>`;
      body=`<div class="category-body">${rows}</div>`;
    }
@@ -297,9 +313,9 @@ function renderAttendance(){
  }).join("");
  const leave=new Set(d.leave||[]),absent=new Set(d.absent||[]);
  const assignedForStatus=assignedCodes(d);
- const leaveEmployees=activeEmployees().filter(e=>leave.has(e.code));
- const absentEmployees=activeEmployees().filter(e=>absent.has(e.code));
- const available=activeEmployees().filter(e=>!assignedForStatus.has(e.code)&&!leave.has(e.code)&&!absent.has(e.code));
+ const leaveEmployees=attendanceEmployees().filter(e=>leave.has(e.code));
+ const absentEmployees=attendanceEmployees().filter(e=>absent.has(e.code));
+ const available=attendanceEmployees().filter(e=>!assignedForStatus.has(e.code)&&!leave.has(e.code)&&!absent.has(e.code));
  const statusRows=(list)=>{
    if(!list.length) return '<div class="empty">No employees selected.</div>';
    return list.map(e=>`<div class="listline"><span><b>${esc(e.code)}</b> — ${esc(e.name)}</span><button type="button" class="light" onclick="clearStatus('${esc(e.code)}')">Clear</button></div>`).join("");
@@ -388,7 +404,7 @@ function shareWhatsApp(){const t=generateReport(),u="https://api.whatsapp.com/se
 function printReport(){
  const d=currentReportDay(),date=$("rDate").value||today(),shift=$("rShift").value;
  const assigned=assignedCodes(d),absent=new Set(d.absent||[]);
- const selected=activeEmployees().filter(e=>assigned.has(e.code)||absent.has(e.code)).sort((a,b)=>a.code.localeCompare(b.code,undefined,{numeric:true}));
+ const selected=employeesForShift(shift).filter(e=>assigned.has(e.code)||absent.has(e.code)).sort((a,b)=>a.code.localeCompare(b.code,undefined,{numeric:true}));
  const statusFor=code=>assigned.has(code)?{icon:"✔",cls:"present",label:"Present"}:{icon:"❌",cls:"absent",label:"Not present"};
  const mid=Math.ceil(selected.length/2),left=selected.slice(0,mid),right=selected.slice(mid);
  const presentCount=selected.filter(e=>assigned.has(e.code)).length;
